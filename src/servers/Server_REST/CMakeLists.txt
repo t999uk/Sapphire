@@ -30,6 +30,7 @@ if(UNIX)
     endif()
   endif()
 else()
+  add_definitions(-DSODIUM_STATIC)
   add_definitions(-D_WIN32_WINNT=0x601)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/MySQL/")
@@ -57,6 +58,7 @@ endif()
 
 
 include_directories(${Boost_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/libsodium/include)
 
 link_directories(${BOOST_LIBRARYDIR})
 link_directories(${SERVER_COMMON_DIR})
@@ -70,6 +72,24 @@ else()
 # 64 bit link
   link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/MySQL/x64)
   link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/zlib/x64)
+
+endif()
+
+# Link libsodium
+if(NOT UNIX)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    if (MSVC_VERSION EQUAL 1900) # Visual Studio 2015
+      link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/libsodium/Win32/Release/v140/static)
+    else()
+      link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/libsodium/Win32/Release/v141/static)
+    endif()
+  else()
+    if (MSVC_VERSION EQUAL 1900) # Visual Studio 2015
+    link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/libsodium/x64/Release/v140/static)
+    else()
+      link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libraries/external/libsodium/x64/Release/v141/static)
+    endif()
+  endif()
 endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_CURRENT_SOURCE_DIR}/../../../bin/")
@@ -87,9 +107,9 @@ set_target_properties(server_rest PROPERTIES
 )
 
 if (UNIX)
-  target_link_libraries (server_rest Common xivdat pthread mysqlclient dl z)
+  target_link_libraries (server_rest Common xivdat pthread mysqlclient dl z libsodium)
 else()
-  target_link_libraries (server_rest Common xivdat libmysql zlib1)
+  target_link_libraries (server_rest Common xivdat libmysql zlib1 libsodium)
 endif()
 
 target_link_libraries( server_rest ${Boost_LIBRARIES} ${Boost_LIBRARIES} )
