@@ -64,7 +64,7 @@ Core::DebugCommandHandler::~DebugCommandHandler()
 
 // add a command set to the register map
 void Core::DebugCommandHandler::registerCommand( const std::string& n, Core::DebugCommand::pFunc functionPtr,
-                                                const std::string& hText, uint8_t uLevel )
+                                                 const std::string& hText, uint8_t uLevel )
 {
    m_commandMap[std::string( n )] = boost::make_shared<DebugCommand>( n, functionPtr, hText, uLevel );
 }
@@ -118,7 +118,7 @@ void Core::DebugCommandHandler::execCommand( char * data, Core::Entity::PlayerPt
 ///////////////////////////////////////////////////////////////////////////////////////
 
 void Core::DebugCommandHandler::scriptReload( char * data, Core::Entity::PlayerPtr pPlayer,
-                                             boost::shared_ptr<Core::DebugCommand> command )
+                                              boost::shared_ptr<Core::DebugCommand> command )
 {
    g_scriptMgr.reload();
    pPlayer->sendDebug( "Scripts reloaded." );
@@ -127,11 +127,11 @@ void Core::DebugCommandHandler::scriptReload( char * data, Core::Entity::PlayerP
 void Core::DebugCommandHandler::help( char* data, Entity::PlayerPtr pPlayer, boost::shared_ptr< Core::DebugCommand > command )
 {
    pPlayer->sendDebug( "Registered debug commands:" );
-   for ( auto cmd : m_commandMap )
+   for( auto cmd : m_commandMap )
    {
-      if ( pPlayer->getGmRank( ) >= cmd.second->m_gmLevel )
+      if( pPlayer->getGmRank() >= cmd.second->m_gmLevel )
       {
-         pPlayer->sendDebug( " - " + cmd.first + " - " + cmd.second->getHelpText( ) );
+         pPlayer->sendDebug( " - " + cmd.first + " - " + cmd.second->getHelpText() );
       }
    }
 }
@@ -236,26 +236,26 @@ void Core::DebugCommandHandler::set( char * data, Core::Entity::PlayerPtr pPlaye
    }
    else if( subCommand == "classjob" )
    {
-       int32_t id;
+      int32_t id;
 
-       sscanf( params.c_str(), "%d", &id );
+      sscanf( params.c_str(), "%d", &id );
 
-       if( pPlayer->getLevelForClass( static_cast<Core::Common::ClassJob> ( id ) ) == 0 )
-       {
-           pPlayer->setLevelForClass( 1, static_cast<Core::Common::ClassJob> ( id ) );
-           pPlayer->setClassJob( static_cast<Core::Common::ClassJob> ( id ) );
-       }
-       else
-           pPlayer->setClassJob( static_cast<Core::Common::ClassJob> ( id ) );
+      if( pPlayer->getLevelForClass( static_cast<Core::Common::ClassJob> ( id ) ) == 0 )
+      {
+         pPlayer->setLevelForClass( 1, static_cast<Core::Common::ClassJob> ( id ) );
+         pPlayer->setClassJob( static_cast<Core::Common::ClassJob> ( id ) );
+      }
+      else
+         pPlayer->setClassJob( static_cast<Core::Common::ClassJob> ( id ) );
    }
-   else if ( subCommand == "cfpenalty" )
+   else if( subCommand == "cfpenalty" )
    {
       int32_t minutes;
       sscanf( params.c_str(), "%d", &minutes );
 
       pPlayer->setCFPenaltyMinutes( minutes );
    }
-   else if ( subCommand == "eorzeatime" )
+   else if( subCommand == "eorzeatime" )
    {
       uint64_t timestamp;
       sscanf( params.c_str(), "%" SCNu64, &timestamp );
@@ -263,7 +263,7 @@ void Core::DebugCommandHandler::set( char * data, Core::Entity::PlayerPtr pPlaye
       pPlayer->setEorzeaTimeOffset( timestamp );
       pPlayer->sendNotice( "Eorzea time offset: " + std::to_string( timestamp ) );
    }
-   else if ( subCommand == "model" )
+   else if( subCommand == "model" )
    {
       uint32_t slot;
       uint32_t val;
@@ -273,7 +273,7 @@ void Core::DebugCommandHandler::set( char * data, Core::Entity::PlayerPtr pPlaye
       pPlayer->sendModel();
       pPlayer->sendDebug( "Model updated" );
    }
-   else if ( subCommand == "mount" )
+   else if( subCommand == "mount" )
    {
       int32_t id;
       sscanf( params.c_str(), "%d", &id );
@@ -328,7 +328,7 @@ void Core::DebugCommandHandler::add( char * data, Core::Entity::PlayerPtr pPlaye
 
       pPlayer->addStatusEffect( effect );
    }
-   else if ( subCommand == "title" )
+   else if( subCommand == "title" )
    {
       uint32_t titleId;
       sscanf( params.c_str(), "%u", &titleId );
@@ -397,6 +397,17 @@ void Core::DebugCommandHandler::add( char * data, Core::Entity::PlayerPtr pPlaye
       pPlayer->queuePacket(controlPacket);*/
 
    }
+   else if( subCommand == "unlock" )
+   {
+      int32_t id;
+      sscanf( params.c_str(), "%d", &id );
+
+      pPlayer->learnAction( id );
+   }
+   else if( subCommand == "enablecompanion" )
+   {
+      pPlayer->learnAction( 17 );
+   }
    else
    {
       pPlayer->sendUrgent( subCommand + " is not a valid ADD command." );
@@ -429,7 +440,7 @@ void Core::DebugCommandHandler::get( char * data, Core::Entity::PlayerPtr pPlaye
                 "subCommand " + subCommand + " params: " + params );
 
 
-   if( ( subCommand == "pos" ) )
+   if( subCommand == "pos" )
    {
 
       int16_t map_id = g_exdData.m_zoneInfoMap[pPlayer->getCurrentZone()->getId()].map_id;
@@ -520,5 +531,5 @@ void Core::DebugCommandHandler::serverInfo( char * data, Core::Entity::PlayerPtr
 
 void Core::DebugCommandHandler::unlockCharacter( char* data, Entity::PlayerPtr pPlayer, boost::shared_ptr< Core::DebugCommand > command )
 {
-   pPlayer->unlock( );
+   pPlayer->unlock();
 }
