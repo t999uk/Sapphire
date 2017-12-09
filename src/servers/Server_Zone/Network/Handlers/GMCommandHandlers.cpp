@@ -70,7 +70,6 @@ enum GmCommand
    Exp = 0x0068,
    Inv = 0x006A,
 
-   Mount = 0x0071,
    Orchestrion = 0x0074,
 
    Item = 0x00C8,
@@ -142,7 +141,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
       pPlayer->sendNotice( "Race for " + targetPlayer->getName() + " was set to " + std::to_string( param1 ) );
       targetPlayer->spawn( targetPlayer );
       auto inRange = targetPlayer->getInRangeActors();
-      for( auto actor : inRange )
+      for ( auto actor : inRange )
       {
          targetPlayer->despawn( actor->getAsPlayer() );
          targetPlayer->spawn( actor->getAsPlayer() );
@@ -155,7 +154,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
       pPlayer->sendNotice( "Tribe for " + targetPlayer->getName() + " was set to " + std::to_string( param1 ) );
       targetPlayer->spawn( targetPlayer );
       auto inRange = targetPlayer->getInRangeActors();
-      for( auto actor : inRange )
+      for ( auto actor : inRange )
       {
          targetPlayer->despawn( actor->getAsPlayer() );
          targetPlayer->spawn( actor->getAsPlayer() );
@@ -168,7 +167,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
       pPlayer->sendNotice( "Sex for " + targetPlayer->getName() + " was set to " + std::to_string( param1 ) );
       targetPlayer->spawn( targetPlayer );
       auto inRange = targetActor->getInRangeActors();
-      for( auto actor : inRange )
+      for ( auto actor : inRange )
       {
          targetPlayer->despawn( actor->getAsPlayer() );
          targetPlayer->spawn( actor->getAsPlayer() );
@@ -190,7 +189,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    }
    case GmCommand::Call:
    {
-      if( targetPlayer->getZoneId() != pPlayer->getZoneId() )
+      if ( targetPlayer->getZoneId() != pPlayer->getZoneId() )
          targetPlayer->setZone( pPlayer->getZoneId() );
 
       targetPlayer->changePosition( pPlayer->getPos().x, pPlayer->getPos().y, pPlayer->getPos().z,
@@ -269,7 +268,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    }
    case GmCommand::Inv:
    {
-      if( targetActor->getInvincibilityType() == Common::InvincibilityType::InvincibilityRefill )
+      if ( targetActor->getInvincibilityType() == Common::InvincibilityType::InvincibilityRefill )
          targetActor->setInvincibilityType( Common::InvincibilityType::InvincibilityNone );
       else
          targetActor->setInvincibilityType( Common::InvincibilityType::InvincibilityRefill );
@@ -280,11 +279,11 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    }
    case GmCommand::Orchestrion:
    {
-      if( param1 == 1 )
+      if ( param1 == 1 )
       {
-         if( param2 == 0 )
+         if ( param2 == 0 )
          {
-            for( uint8_t i = 0; i < 255; i++ )
+            for ( uint8_t i = 0; i < 255; i++ )
                targetActor->getAsPlayer()->learnSong( i, 0 );
 
             pPlayer->sendNotice( "All Songs for " + targetPlayer->getName() +
@@ -300,25 +299,6 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
 
       break;
    }
-   case GmCommand::Mount:
-   {
-      if( param2 == 0 )
-      {
-         for( uint8_t i = 0; i < 255; i++ )
-            targetActor->getAsPlayer()->learnMount( i );
-
-         pPlayer->sendNotice( "All mounts for " + targetPlayer->getName() +
-            " were turned on." );
-      }
-      else
-      {
-         targetActor->getAsPlayer()->learnMount( param1 );
-         pPlayer->sendNotice( "Mount " + std::to_string( param1 ) + " for " + targetPlayer->getName() +
-            " was turned on." );
-      }
-
-      break;
-   }
    case GmCommand::Item:
    {
       if( param2 < 1 || param2 > 99 )
@@ -326,7 +306,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
          param2 = 1;
       }
 
-      if( param1 == 0xcccccccc )
+      if( ( param1 == 0xcccccccc ) )
       {
          pPlayer->sendUrgent( "Syntaxerror." );
          return;
@@ -346,7 +326,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    {
       uint32_t gil = targetPlayer->getCurrency( 1 );
 
-      if( gil < param1 )
+      if ( gil < param1 )
       {
          pPlayer->sendUrgent( "Player does not have enough Gil(" + std::to_string( gil ) + ")" );
       }
@@ -401,11 +381,11 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    }
    case GmCommand::Aetheryte:
    {
-      if( param1 == 0 )
+      if ( param1 == 0 )
       {
-         if( param2 == 0 )
+         if ( param2 == 0 )
          {
-            for( uint8_t i = 0; i < 255; i++ )
+            for ( uint8_t i = 0; i < 255; i++ )
                targetActor->getAsPlayer()->registerAetheryte( i );
 
             pPlayer->sendNotice( "All Aetherytes for " + targetPlayer->getName() +
@@ -424,7 +404,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
    case GmCommand::Teri:
    {
       auto zoneInfo = g_zoneMgr.getZone( param1 );
-      if( !zoneInfo )
+      if ( !zoneInfo )
       {
          pPlayer->sendUrgent( "Invalid zone " + std::to_string( param1 ) );
       }
@@ -432,7 +412,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
       {
          targetPlayer->setPosition( targetPlayer->getPos() );
          targetPlayer->performZoning( param1, targetPlayer->getPos(), 0 );
-         pPlayer->sendNotice( targetPlayer->getName() + " was warped to zone " + std::to_string( param1 ) + " (" + zoneInfo->getName() + ")" );
+         pPlayer->sendNotice( targetPlayer->getName() + " was warped to zone " + std::to_string( param1 ) + " (" + zoneInfo->getName( ) + ")" );
       }
       break;
    }
@@ -458,7 +438,7 @@ void Core::Network::GameConnection::gm1Handler( const Packets::GamePacket& inPac
       pPlayer->sendNotice( "Jumping to " + targetPlayer->getName() + " in range." );
       break;
    }
-
+  
    default:
       pPlayer->sendUrgent( "GM1 Command not implemented: " + std::to_string( commandId ) );
       break;
