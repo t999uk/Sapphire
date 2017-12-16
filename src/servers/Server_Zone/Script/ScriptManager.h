@@ -8,12 +8,6 @@
 #include <Server_Common/Common.h>
 #include "Forwards.h"
 
-
-namespace chaiscript
-{
-   class ChaiScript;
-}
-
 namespace Core
 {
    namespace Scripting
@@ -23,19 +17,23 @@ namespace Core
       {
       private:
 
-         boost::shared_ptr< chaiscript::ChaiScript > m_pChaiHandler;
+          boost::shared_ptr< NativeScriptManager > m_nativeScriptManager;
 
          std::function< std::string( Entity::Player& ) > m_onFirstEnterWorld;
         // auto fn = m_pChaiHandler->eval< std::function<const std::string( Entity::Player ) > >( "onFirstEnterWorld" );
+
+         bool m_firstScriptChangeNotificiation;
 
       public:
          ScriptManager();
          ~ScriptManager();
 
-         int32_t init();
+         bool init();
          void reload();
 
-         const boost::shared_ptr< chaiscript::ChaiScript >& getHandler() const;
+         void update();
+
+         void watchDirectories();
 
          void onPlayerFirstEnterWorld( Entity::Player& player );
 
@@ -57,14 +55,14 @@ namespace Core
          bool onStatusTimeOut( Entity::ActorPtr pActor, uint32_t effectId );
 
          bool onZoneInit( ZonePtr pZone );
-         
+
          bool onEventHandlerReturn( Entity::Player& player, uint32_t eventId, uint16_t subEvent, uint16_t param1, uint16_t param2, uint16_t param3 );
          bool onEventHandlerTradeReturn( Entity::Player& player, uint32_t eventId, uint16_t subEvent, uint16_t param, uint32_t catalogId );
-         
 
-         void loadDir( std::string dirname, std::set<std::string>& chaiFiles );
 
-          
+         void loadDir( const std::string& dirname, std::set<std::string> &files, const std::string& ext );
+
+         NativeScriptManager& getNativeScriptHandler();
       };
    }
 }
