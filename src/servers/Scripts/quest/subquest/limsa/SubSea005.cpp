@@ -132,4 +132,3 @@ class SubSea005 : public EventScript
       } );
    }
 };
-
