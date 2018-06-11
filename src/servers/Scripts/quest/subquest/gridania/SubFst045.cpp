@@ -3,13 +3,13 @@
 #include "Event/EventHelper.h"
 #include <ScriptObject.h>
 
-// Quest Script: SubFst005_00028
-// Quest Name: To the Bannock
-// Quest ID: 65564
-// Start NPC: 1000100
+// Quest Script: SubFst045_00201
+// Quest Name: Passing Muster
+// Quest ID: 65737
+// Start NPC: 1000421
 // End NPC: 1000421
 
-class SubFst005 : public EventScript
+class SubFst045 : public EventScript
 {
    private:
       // Basic quest information 
@@ -24,29 +24,26 @@ class SubFst005 : public EventScript
 
       // Quest rewards 
       static constexpr auto RewardExpFactor = 200;
-      static constexpr auto RewardGil = 127;
+      static constexpr auto RewardGil = 128;
 
       // Entities found in the script data of the quest
-      static constexpr auto Actor0 = 1000100;
-      static constexpr auto Actor1 = 1000421;
+      static constexpr auto Actor0 = 1000421;
       static constexpr auto Seq0Actor0 = 0;
-      static constexpr auto Seq1Actor1 = 1;
+      static constexpr auto Seq1Actor0 = 1;
 
    public:
-      SubFst005() : EventScript( 65564 )
-      {}; 
-      ~SubFst005()
-      {}; 
+      SubFst045() : EventScript( 65737 ){}; 
+      ~SubFst045(){}; 
 
    void onTalk( uint32_t eventId, Entity::Player& player, uint64_t actorId ) override
    {
       auto actor = Event::mapEventActorToRealActor( actorId );
 
-      if( actor == SubFst005::Actor0 )
+      if ( actor == Actor0 && !player.hasQuest( getId() ) )
       {
          Scene00000( player );
       }
-      else if( actor == SubFst005::Actor1 )
+      else
       {
          Scene00001( player );
       }
@@ -58,25 +55,27 @@ class SubFst005 : public EventScript
    {
       player.playScene( getId(), 0, HIDE_HOTBAR,
          [&]( Entity::Player& player, const Event::SceneResult& result )
-      {
-         if( result.param2 == 1 )
          {
-            player.updateQuest( getId(), 255 );
-         }
-      } );
+            if( result.param2 == 1 )
+               {
+                  player.updateQuest( getId(), 255 );
+               }
+         } );
    }
 
    void Scene00001( Entity::Player& player )
    {
       player.playScene( getId(), 1, HIDE_HOTBAR,
          [&]( Entity::Player& player, const Event::SceneResult& result )
-      {
-         if( result.param2 == 1 )
          {
-            if( player.giveQuestRewards( getId(), 0 ) )
-               player.finishQuest( getId() );
-         }
-      } );
+            if( result.param2 == 1 )
+            {
+               if( player.giveQuestRewards( getId(), 0 ) )
+               {
+                  player.finishQuest( getId() );
+               }
+            }
+         } );
    }
 };
 
