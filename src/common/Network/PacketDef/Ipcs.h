@@ -69,11 +69,11 @@ namespace Packets {
 
       SocialRequestError         = 0x00AD,
 
-      Playtime                   = 0x00DF, // updated 4.2
       CFRegistered               = 0x00B8, // updated 4.1
       SocialRequestResponse      = 0x00BB, // updated 4.1
       CancelAllianceForming      = 0x00C6, // updated 4.2
 
+      Playtime                   = 0x00F5, // updated 4.3
       Chat                       = 0x00F7, // updated 4.3
       SocialList                 = 0x00FD, // updated 4.3
 
@@ -114,8 +114,7 @@ namespace Packets {
       ObjectDespawn              = 0x017E, // updated 4.3
 
       SetLevelSync               = 0x017F, // updated 4.3
-
-      InventoryActionAck         = 0x0180, // updated 4.2 ?
+      SilentSetClassJob          = 0x0180, // updated 4.3 - seems to be the case, not sure if it's actually used for anything
 
       InitUI                     = 0x0181, // updated 4.3
       PlayerStats                = 0x0182, // updated 4.3
@@ -130,7 +129,8 @@ namespace Packets {
       ContainerInfo              = 0x0192, // updated 4.3
       InventoryTransactionFinish = 0x0193, // updated 4.3
       InventoryTransaction       = 0x0194, // updated 4.3
-      CurrencyCrystalInfo        = 0x0197, // updated 4.3
+      InventoryActionAck         = 0x0197, // updated 4.3
+      CurrencyCrystalInfo        = 0xFFFF, // updated 4.3 - wrong opcode
 
       UpdateInventorySlot        = 0x0198, // updated 4.3
 
