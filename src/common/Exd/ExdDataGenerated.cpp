@@ -16,7 +16,7 @@ Core::Data::Achievement::Achievement( uint32_t row_id, Core::Data::ExdDataGenera
    item = exdData->getField< uint32_t >( row, 5 );
    icon = exdData->getField< uint16_t >( row, 6 );
    type = exdData->getField< uint8_t >( row, 8 );
-   data.push_back( exdData->getField< int32_t >( row, 9 ) );
+   key = exdData->getField< int32_t >( row, 9 );
    data.push_back( exdData->getField< int32_t >( row, 10 ) );
    data.push_back( exdData->getField< int32_t >( row, 11 ) );
    data.push_back( exdData->getField< int32_t >( row, 12 ) );
@@ -75,7 +75,7 @@ Core::Data::Action::Action( uint32_t row_id, Core::Data::ExdDataGenerated* exdDa
    aspect = exdData->getField< uint8_t >( row, 41 );
    actionProcStatus = exdData->getField< uint8_t >( row, 42 );
    statusGainSelf = exdData->getField< uint16_t >( row, 43 );
-   actionData = exdData->getField< uint32_t >( row, 44 );
+   unlockLink = exdData->getField< uint32_t >( row, 44 );
    classJobCategory = exdData->getField< uint8_t >( row, 45 );
    affectsPosition = exdData->getField< bool >( row, 48 );
    omen = exdData->getField< uint8_t >( row, 49 );
@@ -135,11 +135,16 @@ Core::Data::ActionTimeline::ActionTimeline( uint32_t row_id, Core::Data::ExdData
    key = exdData->getField< std::string >( row, 6 );
 }
 
+Core::Data::ActionTimelineMove::ActionTimelineMove( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ActionTimelineMoveDat.get_row( row_id );
+}
+
 Core::Data::ActionTimelineReplace::ActionTimelineReplace( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ActionTimelineReplaceDat.get_row( row_id );
    old = exdData->getField< uint16_t >( row, 0 );
-   new1 = exdData->getField< uint16_t >( row, 1 );
+   New = exdData->getField< uint16_t >( row, 1 );
 }
 
 Core::Data::ActionTransient::ActionTransient( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -148,17 +153,62 @@ Core::Data::ActionTransient::ActionTransient( uint32_t row_id, Core::Data::ExdDa
    description = exdData->getField< std::string >( row, 0 );
 }
 
+Core::Data::ActivityFeedButtons::ActivityFeedButtons( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ActivityFeedButtonsDat.get_row( row_id );
+   bannerURL = exdData->getField< std::string >( row, 1 );
+   description = exdData->getField< std::string >( row, 2 );
+   language = exdData->getField< std::string >( row, 3 );
+   pictureURL = exdData->getField< std::string >( row, 4 );
+}
+
+Core::Data::ActivityFeedCaptions::ActivityFeedCaptions( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ActivityFeedCaptionsDat.get_row( row_id );
+   jA = exdData->getField< std::string >( row, 0 );
+   eN = exdData->getField< std::string >( row, 1 );
+   dE = exdData->getField< std::string >( row, 2 );
+   fR = exdData->getField< std::string >( row, 3 );
+}
+
+Core::Data::ActivityFeedGroupCaptions::ActivityFeedGroupCaptions( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ActivityFeedGroupCaptionsDat.get_row( row_id );
+   jA = exdData->getField< std::string >( row, 0 );
+   eN = exdData->getField< std::string >( row, 1 );
+   dE = exdData->getField< std::string >( row, 2 );
+   fR = exdData->getField< std::string >( row, 3 );
+}
+
+Core::Data::ActivityFeedImages::ActivityFeedImages( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ActivityFeedImagesDat.get_row( row_id );
+   expansionImage = exdData->getField< std::string >( row, 0 );
+   activityFeedJA = exdData->getField< std::string >( row, 1 );
+   activityFeedEN = exdData->getField< std::string >( row, 2 );
+   activityFeedDE = exdData->getField< std::string >( row, 3 );
+   activityFeedFR = exdData->getField< std::string >( row, 4 );
+}
+
 Core::Data::Addon::Addon( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_AddonDat.get_row( row_id );
    text = exdData->getField< std::string >( row, 0 );
 }
 
+Core::Data::AddonHud::AddonHud( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_AddonHudDat.get_row( row_id );
+   longs = exdData->getField< std::string >( row, 0 );
+   shorts = exdData->getField< std::string >( row, 1 );
+   function = exdData->getField< std::string >( row, 2 );
+}
+
 Core::Data::Adventure::Adventure( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_AdventureDat.get_row( row_id );
    level = exdData->getField< int32_t >( row, 0 );
-   emote = exdData->getField< uint8_t >( row, 3 );
+   emote = exdData->getField< uint16_t >( row, 3 );
    minTime = exdData->getField< uint16_t >( row, 4 );
    maxTime = exdData->getField< uint16_t >( row, 5 );
    placeName = exdData->getField< int32_t >( row, 6 );
@@ -227,9 +277,16 @@ Core::Data::Aetheryte::Aetheryte( uint32_t row_id, Core::Data::ExdDataGenerated*
    level.push_back( exdData->getField< uint32_t >( row, 14 ) );
    isAetheryte = exdData->getField< bool >( row, 15 );
    aethernetGroup = exdData->getField< uint8_t >( row, 16 );
+   requiredQuest = exdData->getField< uint32_t >( row, 18 );
    map = exdData->getField< uint16_t >( row, 19 );
    aetherstreamX = exdData->getField< int16_t >( row, 20 );
    aetherstreamY = exdData->getField< int16_t >( row, 21 );
+}
+
+Core::Data::AetheryteSystemDefine::AetheryteSystemDefine( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_AetheryteSystemDefineDat.get_row( row_id );
+   text = exdData->getField< std::string >( row, 0 );
 }
 
 Core::Data::AirshipExplorationLevel::AirshipExplorationLevel( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -377,10 +434,37 @@ Core::Data::AquariumWater::AquariumWater( uint32_t row_id, Core::Data::ExdDataGe
    name = exdData->getField< std::string >( row, 1 );
 }
 
+Core::Data::ArrayEventHandler::ArrayEventHandler( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ArrayEventHandlerDat.get_row( row_id );
+   data.push_back( exdData->getField< uint32_t >( row, 0 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 1 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 2 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 3 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 4 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 5 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 6 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 7 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 8 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 9 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 10 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 11 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 12 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 13 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 14 ) );
+   data.push_back( exdData->getField< uint32_t >( row, 15 ) );
+}
+
 Core::Data::AttackType::AttackType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_AttackTypeDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::BacklightColor::BacklightColor( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BacklightColorDat.get_row( row_id );
+   color = exdData->getField< uint32_t >( row, 0 );
 }
 
 Core::Data::Balloon::Balloon( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -510,6 +594,34 @@ Core::Data::BGM::BGM( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
    file = exdData->getField< std::string >( row, 0 );
 }
 
+Core::Data::BGMFade::BGMFade( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BGMFadeDat.get_row( row_id );
+   bGMFadeType = exdData->getField< int32_t >( row, 2 );
+}
+
+Core::Data::BGMSituation::BGMSituation( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BGMSituationDat.get_row( row_id );
+   bGMDay = exdData->getField< uint16_t >( row, 0 );
+   bGMNight = exdData->getField< uint16_t >( row, 1 );
+   bGMBattle = exdData->getField< uint16_t >( row, 2 );
+   bGMField = exdData->getField< uint16_t >( row, 3 );
+}
+
+Core::Data::BGMSwitch::BGMSwitch( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BGMSwitchDat.get_row( row_id );
+   bGMSystemDefine = exdData->getField< uint8_t >( row, 0 );
+   quest = exdData->getField< uint32_t >( row, 1 );
+}
+
+Core::Data::BGMSystemDefine::BGMSystemDefine( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BGMSystemDefineDat.get_row( row_id );
+   define = exdData->getField< float >( row, 0 );
+}
+
 Core::Data::BNpcAnnounceIcon::BNpcAnnounceIcon( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_BNpcAnnounceIconDat.get_row( row_id );
@@ -519,11 +631,14 @@ Core::Data::BNpcAnnounceIcon::BNpcAnnounceIcon( uint32_t row_id, Core::Data::Exd
 Core::Data::BNpcBase::BNpcBase( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_BNpcBaseDat.get_row( row_id );
+   behavior = exdData->getField< uint16_t >( row, 0 );
+   actionTimelineMove = exdData->getField< uint8_t >( row, 1 );
    scale = exdData->getField< float >( row, 4 );
    modelChara = exdData->getField< uint16_t >( row, 5 );
    bNpcCustomize = exdData->getField< uint16_t >( row, 6 );
    npcEquip = exdData->getField< uint16_t >( row, 7 );
    arrayEventHandler = exdData->getField< int32_t >( row, 11 );
+   bNpcParts = exdData->getField< uint8_t >( row, 12 );
 }
 
 Core::Data::BNpcCustomize::BNpcCustomize( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -562,6 +677,42 @@ Core::Data::BNpcName::BNpcName( uint32_t row_id, Core::Data::ExdDataGenerated* e
    auto row = exdData->m_BNpcNameDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
+}
+
+Core::Data::BNpcParts::BNpcParts( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_BNpcPartsDat.get_row( row_id );
+   bNpcBase1 = exdData->getField< uint16_t >( row, 0 );
+   partSlot1 = exdData->getField< uint8_t >( row, 1 );
+   x1 = exdData->getField< float >( row, 6 );
+   y1 = exdData->getField< float >( row, 7 );
+   z1 = exdData->getField< float >( row, 8 );
+   scale1 = exdData->getField< float >( row, 10 );
+   bNpcBase2 = exdData->getField< uint16_t >( row, 11 );
+   partSlot2 = exdData->getField< uint8_t >( row, 12 );
+   x2 = exdData->getField< float >( row, 17 );
+   y2 = exdData->getField< float >( row, 18 );
+   z2 = exdData->getField< float >( row, 19 );
+   scale2 = exdData->getField< float >( row, 21 );
+   bNpcBase3 = exdData->getField< uint16_t >( row, 22 );
+   partSlot3 = exdData->getField< uint8_t >( row, 23 );
+   x3 = exdData->getField< float >( row, 28 );
+   y3 = exdData->getField< float >( row, 29 );
+   z3 = exdData->getField< float >( row, 30 );
+   scale3 = exdData->getField< int16_t >( row, 31 );
+   bNpcBase4 = exdData->getField< uint16_t >( row, 33 );
+   partSlot4 = exdData->getField< uint8_t >( row, 34 );
+   x4 = exdData->getField< float >( row, 39 );
+   y4 = exdData->getField< float >( row, 40 );
+   z4 = exdData->getField< float >( row, 41 );
+   scale4 = exdData->getField< float >( row, 43 );
+   bNpcBase5 = exdData->getField< uint16_t >( row, 44 );
+   partSlot5 = exdData->getField< uint8_t >( row, 45 );
+   x5 = exdData->getField< float >( row, 50 );
+   y5 = exdData->getField< float >( row, 51 );
+   z5 = exdData->getField< float >( row, 52 );
+   scale5 = exdData->getField< float >( row, 54 );
 }
 
 Core::Data::Buddy::Buddy( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -589,6 +740,8 @@ Core::Data::BuddyEquip::BuddyEquip( uint32_t row_id, Core::Data::ExdDataGenerate
    auto row = exdData->m_BuddyEquipDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
+   rarity = exdData->getField< int8_t >( row, 5 );
    name = exdData->getField< std::string >( row, 8 );
    modelTop = exdData->getField< int32_t >( row, 9 );
    modelBody = exdData->getField< int32_t >( row, 10 );
@@ -602,7 +755,7 @@ Core::Data::BuddyEquip::BuddyEquip( uint32_t row_id, Core::Data::ExdDataGenerate
 Core::Data::BuddyItem::BuddyItem( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_BuddyItemDat.get_row( row_id );
-   name = exdData->getField< uint16_t >( row, 0 );
+   item = exdData->getField< uint16_t >( row, 0 );
 }
 
 Core::Data::BuddyRank::BuddyRank( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -818,6 +971,26 @@ Core::Data::ChocoboRaceTerritory::ChocoboRaceTerritory( uint32_t row_id, Core::D
    icon = exdData->getField< int32_t >( row, 1 );
 }
 
+Core::Data::ChocoboRaceTutorial::ChocoboRaceTutorial( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ChocoboRaceTutorialDat.get_row( row_id );
+   npcYell.push_back( exdData->getField< int32_t >( row, 0 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 1 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 2 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 3 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 4 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 5 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 6 ) );
+   npcYell.push_back( exdData->getField< int32_t >( row, 7 ) );
+}
+
+Core::Data::ChocoboRaceWeather::ChocoboRaceWeather( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ChocoboRaceWeatherDat.get_row( row_id );
+   weatherType1 = exdData->getField< int32_t >( row, 0 );
+   weatherType2 = exdData->getField< int32_t >( row, 1 );
+}
+
 Core::Data::ChocoboTaxi::ChocoboTaxi( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ChocoboTaxiDat.get_row( row_id );
@@ -905,6 +1078,8 @@ Core::Data::Companion::Companion( uint32_t row_id, Core::Data::ExdDataGenerated*
    auto row = exdData->m_CompanionDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
+   rarity = exdData->getField< int8_t >( row, 5 );
    behavior = exdData->getField< uint8_t >( row, 14 );
    icon = exdData->getField< uint16_t >( row, 26 );
    cost = exdData->getField< uint8_t >( row, 30 );
@@ -1017,6 +1192,8 @@ Core::Data::CompanyCraftType::CompanyCraftType( uint32_t row_id, Core::Data::Exd
 Core::Data::CompleteJournal::CompleteJournal( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_CompleteJournalDat.get_row( row_id );
+   requiredLevel = exdData->getField< uint16_t >( row, 1 );
+   icon = exdData->getField< int32_t >( row, 3 );
    name = exdData->getField< std::string >( row, 5 );
    cutscene.push_back( exdData->getField< int32_t >( row, 6 ) );
    cutscene.push_back( exdData->getField< int32_t >( row, 7 ) );
@@ -1051,6 +1228,13 @@ Core::Data::CompleteJournalCategory::CompleteJournalCategory( uint32_t row_id, C
    lastQuest = exdData->getField< uint32_t >( row, 1 );
 }
 
+Core::Data::ContentCloseCycle::ContentCloseCycle( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ContentCloseCycleDat.get_row( row_id );
+   unixtime = exdData->getField< uint32_t >( row, 0 );
+   timeSeconds = exdData->getField< uint32_t >( row, 1 );
+}
+
 Core::Data::ContentExAction::ContentExAction( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ContentExActionDat.get_row( row_id );
@@ -1061,21 +1245,42 @@ Core::Data::ContentExAction::ContentExAction( uint32_t row_id, Core::Data::ExdDa
 Core::Data::ContentFinderCondition::ContentFinderCondition( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ContentFinderConditionDat.get_row( row_id );
+   territoryType = exdData->getField< uint16_t >( row, 1 );
+   contentLinkType = exdData->getField< uint8_t >( row, 2 );
    instanceContent = exdData->getField< uint16_t >( row, 3 );
    contentMemberType = exdData->getField< uint8_t >( row, 9 );
    classJobLevelRequired = exdData->getField< uint8_t >( row, 15 );
    classJobLevelSync = exdData->getField< uint8_t >( row, 16 );
    itemLevelRequired = exdData->getField< uint16_t >( row, 17 );
    itemLevelSync = exdData->getField< uint16_t >( row, 18 );
-   contentIndicator = exdData->getField< uint8_t >( row, 24 );
+   allowReplacement = exdData->getField< bool >( row, 20 );
+   highEndDuty = exdData->getField< bool >( row, 26 );
+   name = exdData->getField< std::string >( row, 32 );
    contentType = exdData->getField< uint8_t >( row, 33 );
-   icon = exdData->getField< uint32_t >( row, 37 );
+   transient = exdData->getField< uint8_t >( row, 34 );
+   image = exdData->getField< uint32_t >( row, 37 );
 }
 
 Core::Data::ContentFinderConditionTransient::ContentFinderConditionTransient( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ContentFinderConditionTransientDat.get_row( row_id );
    description = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::ContentGauge::ContentGauge( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ContentGaugeDat.get_row( row_id );
+   name = exdData->getField< std::string >( row, 0 );
+   color = exdData->getField< uint8_t >( row, 1 );
+   textString = exdData->getField< std::string >( row, 3 );
+}
+
+Core::Data::ContentGaugeColor::ContentGaugeColor( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ContentGaugeColorDat.get_row( row_id );
+   androidColor1 = exdData->getField< uint32_t >( row, 0 );
+   androidColor2 = exdData->getField< uint32_t >( row, 1 );
+   androidColor3 = exdData->getField< uint32_t >( row, 2 );
 }
 
 Core::Data::ContentMemberType::ContentMemberType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1107,27 +1312,47 @@ Core::Data::ContentRoulette::ContentRoulette( uint32_t row_id, Core::Data::ExdDa
    description = exdData->getField< std::string >( row, 2 );
    dutyType = exdData->getField< std::string >( row, 3 );
    isInDutyFinder = exdData->getField< bool >( row, 6 );
+   openRule = exdData->getField< uint8_t >( row, 7 );
+   requiredLevel = exdData->getField< uint8_t >( row, 9 );
    itemLevelRequired = exdData->getField< uint16_t >( row, 11 );
    icon = exdData->getField< uint32_t >( row, 13 );
+   contentRouletteRoleBonus = exdData->getField< uint8_t >( row, 14 );
    rewardTomeA = exdData->getField< uint16_t >( row, 15 );
    rewardTomeB = exdData->getField< uint16_t >( row, 16 );
    rewardTomeC = exdData->getField< uint16_t >( row, 17 );
    sortKey = exdData->getField< uint8_t >( row, 20 );
    contentMemberType = exdData->getField< uint8_t >( row, 22 );
    requireAllDuties = exdData->getField< bool >( row, 32 );
+   contentRouletteOpenRule = exdData->getField< uint8_t >( row, 34 );
+   instanceContent = exdData->getField< uint16_t >( row, 35 );
+}
+
+Core::Data::ContentRouletteOpenRule::ContentRouletteOpenRule( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ContentRouletteOpenRuleDat.get_row( row_id );
+   type = exdData->getField< uint32_t >( row, 1 );
+}
+
+Core::Data::ContentRouletteRoleBonus::ContentRouletteRoleBonus( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ContentRouletteRoleBonusDat.get_row( row_id );
+   itemRewardType = exdData->getField< uint32_t >( row, 6 );
+   rewardAmount = exdData->getField< uint8_t >( row, 7 );
 }
 
 Core::Data::ContentsNote::ContentsNote( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_ContentsNoteDat.get_row( row_id );
    contentType = exdData->getField< uint8_t >( row, 0 );
-   requiredAmount = exdData->getField< int32_t >( row, 2 );
-}
-
-Core::Data::ContentsNoteCategory::ContentsNoteCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
-{
-   auto row = exdData->m_ContentsNoteCategoryDat.get_row( row_id );
-   type = exdData->getField< uint8_t >( row, 1 );
+   menuOrder = exdData->getField< uint8_t >( row, 2 );
+   requiredAmount = exdData->getField< int32_t >( row, 3 );
+   expMultiplier = exdData->getField< int32_t >( row, 5 );
+   gilRward = exdData->getField< int32_t >( row, 7 );
+   levelUnlock = exdData->getField< uint16_t >( row, 8 );
+   howTo = exdData->getField< uint16_t >( row, 9 );
+   name = exdData->getField< std::string >( row, 11 );
+   description = exdData->getField< std::string >( row, 12 );
+   expCap = exdData->getField< int32_t >( row, 13 );
 }
 
 Core::Data::ContentTalk::ContentTalk( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1180,6 +1405,7 @@ Core::Data::CraftLeve::CraftLeve( uint32_t row_id, Core::Data::ExdDataGenerated*
 {
    auto row = exdData->m_CraftLeveDat.get_row( row_id );
    leve = exdData->getField< int32_t >( row, 0 );
+   craftLeveTalk = exdData->getField< int32_t >( row, 1 );
    repeats = exdData->getField< uint8_t >( row, 2 );
 }
 
@@ -1187,6 +1413,27 @@ Core::Data::CraftType::CraftType( uint32_t row_id, Core::Data::ExdDataGenerated*
 {
    auto row = exdData->m_CraftTypeDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 2 );
+}
+
+Core::Data::Credit::Credit( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_CreditDat.get_row( row_id );
+   roles1 = exdData->getField< uint16_t >( row, 1 );
+   japaneseCast1 = exdData->getField< uint16_t >( row, 2 );
+   englishCast1 = exdData->getField< uint16_t >( row, 3 );
+   frenchCast1 = exdData->getField< uint16_t >( row, 4 );
+   germanCast1 = exdData->getField< uint16_t >( row, 5 );
+   roles2 = exdData->getField< uint16_t >( row, 6 );
+   japaneseCast2 = exdData->getField< uint16_t >( row, 7 );
+   englishCast2 = exdData->getField< uint16_t >( row, 8 );
+   frenchCast2 = exdData->getField< uint16_t >( row, 9 );
+   germanCast2 = exdData->getField< uint16_t >( row, 10 );
+}
+
+Core::Data::CreditCast::CreditCast( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_CreditCastDat.get_row( row_id );
+   name = exdData->getField< std::string >( row, 0 );
 }
 
 Core::Data::Currency::Currency( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1282,6 +1529,12 @@ Core::Data::DailySupplyItem::DailySupplyItem( uint32_t row_id, Core::Data::ExdDa
    auto row = exdData->m_DailySupplyItemDat.get_row( row_id );
 }
 
+Core::Data::DeepDungeon::DeepDungeon( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DeepDungeonDat.get_row( row_id );
+   name = exdData->getField< std::string >( row, 22 );
+}
+
 Core::Data::DeepDungeonBan::DeepDungeonBan( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_DeepDungeonBanDat.get_row( row_id );
@@ -1304,6 +1557,8 @@ Core::Data::DeepDungeonEquipment::DeepDungeonEquipment( uint32_t row_id, Core::D
    icon = exdData->getField< uint32_t >( row, 0 );
    singular = exdData->getField< std::string >( row, 1 );
    plural = exdData->getField< std::string >( row, 3 );
+   startsWithVowel = exdData->getField< int8_t >( row, 5 );
+   rarity = exdData->getField< int8_t >( row, 6 );
    name = exdData->getField< std::string >( row, 9 );
    description = exdData->getField< std::string >( row, 10 );
 }
@@ -1322,9 +1577,49 @@ Core::Data::DeepDungeonItem::DeepDungeonItem( uint32_t row_id, Core::Data::ExdDa
    icon = exdData->getField< uint32_t >( row, 0 );
    singular = exdData->getField< std::string >( row, 1 );
    plural = exdData->getField< std::string >( row, 3 );
+   startsWithVowel = exdData->getField< int8_t >( row, 5 );
+   rarity = exdData->getField< int8_t >( row, 6 );
    name = exdData->getField< std::string >( row, 9 );
    tooltip = exdData->getField< std::string >( row, 10 );
    action = exdData->getField< uint32_t >( row, 11 );
+}
+
+Core::Data::DeepDungeonLayer::DeepDungeonLayer( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DeepDungeonLayerDat.get_row( row_id );
+   deepDungeon = exdData->getField< uint8_t >( row, 0 );
+}
+
+Core::Data::DeepDungeonMagicStone::DeepDungeonMagicStone( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DeepDungeonMagicStoneDat.get_row( row_id );
+   icon = exdData->getField< uint32_t >( row, 0 );
+   singular = exdData->getField< std::string >( row, 1 );
+   plural = exdData->getField< std::string >( row, 3 );
+   startsWithVowel = exdData->getField< int8_t >( row, 5 );
+   rarity = exdData->getField< int8_t >( row, 6 );
+   name = exdData->getField< std::string >( row, 9 );
+   tooltip = exdData->getField< std::string >( row, 10 );
+}
+
+Core::Data::DeepDungeonMap5X::DeepDungeonMap5X( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DeepDungeonMap5XDat.get_row( row_id );
+   deepDungeonRoom.push_back( exdData->getField< uint16_t >( row, 0 ) );
+   deepDungeonRoom.push_back( exdData->getField< uint16_t >( row, 1 ) );
+   deepDungeonRoom.push_back( exdData->getField< uint16_t >( row, 2 ) );
+   deepDungeonRoom.push_back( exdData->getField< uint16_t >( row, 3 ) );
+   deepDungeonRoom.push_back( exdData->getField< uint16_t >( row, 4 ) );
+}
+
+Core::Data::DeepDungeonRoom::DeepDungeonRoom( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DeepDungeonRoomDat.get_row( row_id );
+   level.push_back( exdData->getField< uint32_t >( row, 0 ) );
+   level.push_back( exdData->getField< uint32_t >( row, 1 ) );
+   level.push_back( exdData->getField< uint32_t >( row, 2 ) );
+   level.push_back( exdData->getField< uint32_t >( row, 3 ) );
+   level.push_back( exdData->getField< uint32_t >( row, 4 ) );
 }
 
 Core::Data::DeepDungeonStatus::DeepDungeonStatus( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1344,6 +1639,12 @@ Core::Data::DefaultTalk::DefaultTalk( uint32_t row_id, Core::Data::ExdDataGenera
    text.push_back( exdData->getField< std::string >( row, 20 ) );
    text.push_back( exdData->getField< std::string >( row, 21 ) );
    text.push_back( exdData->getField< std::string >( row, 22 ) );
+}
+
+Core::Data::DefaultTalkLipSyncType::DefaultTalkLipSyncType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_DefaultTalkLipSyncTypeDat.get_row( row_id );
+   actionTimeline = exdData->getField< int32_t >( row, 0 );
 }
 
 Core::Data::DeliveryQuest::DeliveryQuest( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1424,11 +1725,22 @@ Core::Data::Emote::Emote( uint32_t row_id, Core::Data::ExdDataGenerated* exdData
 {
    auto row = exdData->m_EmoteDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 1 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 2 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 3 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 4 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 5 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 6 ) );
+   actionTimeline.push_back( exdData->getField< uint16_t >( row, 7 ) );
    emoteCategory = exdData->getField< uint8_t >( row, 11 );
+   emoteMode = exdData->getField< uint8_t >( row, 12 );
+   hasCancelEmote = exdData->getField< bool >( row, 15 );
+   drawsWeapon = exdData->getField< bool >( row, 16 );
    textCommand = exdData->getField< int32_t >( row, 18 );
    icon = exdData->getField< uint16_t >( row, 19 );
    logMessageTargeted = exdData->getField< uint16_t >( row, 20 );
    logMessageUntargeted = exdData->getField< uint16_t >( row, 21 );
+   unlockLink = exdData->getField< uint32_t >( row, 22 );
 }
 
 Core::Data::EmoteCategory::EmoteCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1541,6 +1853,7 @@ Core::Data::EObj::EObj( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_EObjDat.get_row( row_id );
    data = exdData->getField< uint32_t >( row, 9 );
+   sgbPath = exdData->getField< uint16_t >( row, 11 );
 }
 
 Core::Data::EObjName::EObjName( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1605,6 +1918,9 @@ Core::Data::EventAction::EventAction( uint32_t row_id, Core::Data::ExdDataGenera
    name = exdData->getField< std::string >( row, 0 );
    icon = exdData->getField< uint16_t >( row, 1 );
    castTime = exdData->getField< uint8_t >( row, 2 );
+   animation.push_back( exdData->getField< uint16_t >( row, 3 ) );
+   animation.push_back( exdData->getField< uint16_t >( row, 4 ) );
+   animation.push_back( exdData->getField< uint16_t >( row, 5 ) );
 }
 
 Core::Data::EventIconPriority::EventIconPriority( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1643,18 +1959,38 @@ Core::Data::EventItem::EventItem( uint32_t row_id, Core::Data::ExdDataGenerated*
    auto row = exdData->m_EventItemDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
    rarity = exdData->getField< int8_t >( row, 5 );
    name = exdData->getField< std::string >( row, 9 );
    icon = exdData->getField< uint16_t >( row, 10 );
+   action = exdData->getField< uint16_t >( row, 11 );
    stackSize = exdData->getField< uint8_t >( row, 12 );
    quest = exdData->getField< uint32_t >( row, 14 );
    castTime = exdData->getField< uint8_t >( row, 15 );
+}
+
+Core::Data::EventItemCastTimeline::EventItemCastTimeline( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_EventItemCastTimelineDat.get_row( row_id );
+   actionTimeline = exdData->getField< uint32_t >( row, 0 );
 }
 
 Core::Data::EventItemHelp::EventItemHelp( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_EventItemHelpDat.get_row( row_id );
    description = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::EventItemTimeline::EventItemTimeline( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_EventItemTimelineDat.get_row( row_id );
+   actionTimeline = exdData->getField< uint32_t >( row, 0 );
+}
+
+Core::Data::ExportedSG::ExportedSG( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ExportedSGDat.get_row( row_id );
+   sgbPath = exdData->getField< std::string >( row, 0 );
 }
 
 Core::Data::ExVersion::ExVersion( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1757,6 +2093,12 @@ Core::Data::FieldMarker::FieldMarker( uint32_t row_id, Core::Data::ExdDataGenera
    icon = exdData->getField< uint16_t >( row, 1 );
 }
 
+Core::Data::FishingRecordTypeTransient::FishingRecordTypeTransient( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_FishingRecordTypeTransientDat.get_row( row_id );
+   image = exdData->getField< int32_t >( row, 0 );
+}
+
 Core::Data::FishingSpot::FishingSpot( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_FishingSpotDat.get_row( row_id );
@@ -1787,9 +2129,61 @@ Core::Data::FishParameter::FishParameter( uint32_t row_id, Core::Data::ExdDataGe
    text = exdData->getField< std::string >( row, 0 );
    item = exdData->getField< int32_t >( row, 1 );
    gatheringItemLevel = exdData->getField< uint16_t >( row, 2 );
-   territoryType = exdData->getField< int32_t >( row, 4 );
-   isFish = exdData->getField< bool >( row, 5 );
-   gatheringSubCategory = exdData->getField< uint16_t >( row, 6 );
+   territoryType = exdData->getField< int32_t >( row, 6 );
+   isFish = exdData->getField< bool >( row, 7 );
+   gatheringSubCategory = exdData->getField< uint16_t >( row, 10 );
+}
+
+Core::Data::Frontline03::Frontline03( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_Frontline03Dat.get_row( row_id );
+   emptyIcon.push_back( exdData->getField< uint32_t >( row, 9 ) );
+   emptyIcon.push_back( exdData->getField< uint32_t >( row, 10 ) );
+   emptyIcon.push_back( exdData->getField< uint32_t >( row, 11 ) );
+   maelstromIcon.push_back( exdData->getField< uint32_t >( row, 12 ) );
+   maelstromIcon.push_back( exdData->getField< uint32_t >( row, 13 ) );
+   maelstromIcon.push_back( exdData->getField< uint32_t >( row, 14 ) );
+   twinAdderIcon.push_back( exdData->getField< uint32_t >( row, 15 ) );
+   twinAdderIcon.push_back( exdData->getField< uint32_t >( row, 16 ) );
+   twinAdderIcon.push_back( exdData->getField< uint32_t >( row, 17 ) );
+   immortalFlamesIcon.push_back( exdData->getField< uint32_t >( row, 18 ) );
+   immortalFlamesIcon.push_back( exdData->getField< uint32_t >( row, 19 ) );
+   immortalFlamesIcon.push_back( exdData->getField< uint32_t >( row, 20 ) );
+}
+
+Core::Data::Frontline04::Frontline04( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_Frontline04Dat.get_row( row_id );
+   level1 = exdData->getField< int32_t >( row, 0 );
+   level2 = exdData->getField< int32_t >( row, 1 );
+   level3 = exdData->getField< int32_t >( row, 2 );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 6 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 7 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 8 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 9 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 10 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 11 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 12 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 13 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 14 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 15 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 16 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 17 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 18 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 19 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 20 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 21 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 22 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 23 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 24 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 25 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 26 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 27 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 28 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 29 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 30 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 31 ) );
+   unknownLevel.push_back( exdData->getField< int32_t >( row, 32 ) );
 }
 
 Core::Data::GardeningSeed::GardeningSeed( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1830,6 +2224,19 @@ Core::Data::GatheringItemPoint::GatheringItemPoint( uint32_t row_id, Core::Data:
 {
    auto row = exdData->m_GatheringItemPointDat.get_row( row_id );
    gatheringPoint = exdData->getField< uint32_t >( row, 0 );
+}
+
+Core::Data::GatheringLeve::GatheringLeve( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GatheringLeveDat.get_row( row_id );
+   requiredItem1 = exdData->getField< int32_t >( row, 4 );
+   leveLevel = exdData->getField< uint8_t >( row, 5 );
+   requiredItem2 = exdData->getField< int32_t >( row, 6 );
+}
+
+Core::Data::GatheringLeveRoute::GatheringLeveRoute( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GatheringLeveRouteDat.get_row( row_id );
 }
 
 Core::Data::GatheringNotebookList::GatheringNotebookList( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1984,6 +2391,7 @@ Core::Data::GatheringPointName::GatheringPointName( uint32_t row_id, Core::Data:
    auto row = exdData->m_GatheringPointNameDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
 }
 
 Core::Data::GatheringSubCategory::GatheringSubCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -1999,6 +2407,17 @@ Core::Data::GatheringType::GatheringType( uint32_t row_id, Core::Data::ExdDataGe
    name = exdData->getField< std::string >( row, 0 );
    iconMain = exdData->getField< int32_t >( row, 1 );
    iconOff = exdData->getField< int32_t >( row, 2 );
+}
+
+Core::Data::GcArmyCaptureTactics::GcArmyCaptureTactics( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GcArmyCaptureTacticsDat.get_row( row_id );
+   name = exdData->getField< int32_t >( row, 0 );
+   hP = exdData->getField< uint8_t >( row, 1 );
+   damageDealt = exdData->getField< uint8_t >( row, 2 );
+   damageReceived = exdData->getField< uint8_t >( row, 3 );
+   tactic = exdData->getField< uint32_t >( row, 4 );
+   icon = exdData->getField< uint32_t >( row, 5 );
 }
 
 Core::Data::GcArmyExpedition::GcArmyExpedition( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2144,13 +2563,42 @@ Core::Data::GeneralAction::GeneralAction( uint32_t row_id, Core::Data::ExdDataGe
    name = exdData->getField< std::string >( row, 0 );
    description = exdData->getField< std::string >( row, 1 );
    action = exdData->getField< uint16_t >( row, 3 );
+   unlockLink = exdData->getField< uint16_t >( row, 4 );
    icon = exdData->getField< int32_t >( row, 7 );
+}
+
+Core::Data::GFATE::GFATE( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GFATEDat.get_row( row_id );
+   icon.push_back( exdData->getField< uint32_t >( row, 22 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 23 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 24 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 25 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 26 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 27 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 28 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 29 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 30 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 31 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 32 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 33 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 34 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 35 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 36 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 37 ) );
 }
 
 Core::Data::GilShop::GilShop( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_GilShopDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
+   icon = exdData->getField< uint32_t >( row, 1 );
+   questRequired.push_back( exdData->getField< uint32_t >( row, 2 ) );
+   questRequired.push_back( exdData->getField< uint32_t >( row, 3 ) );
+   questRequired.push_back( exdData->getField< uint32_t >( row, 4 ) );
+   questRequired.push_back( exdData->getField< uint32_t >( row, 5 ) );
+   acceptTalk = exdData->getField< int32_t >( row, 6 );
+   failTalk = exdData->getField< int32_t >( row, 7 );
 }
 
 Core::Data::GilShopItem::GilShopItem( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2162,6 +2610,16 @@ Core::Data::GilShopItem::GilShopItem( uint32_t row_id, Core::Data::ExdDataGenera
    rowRequired.push_back( exdData->getField< int32_t >( row, 5 ) );
    stateRequired = exdData->getField< uint16_t >( row, 7 );
    patch = exdData->getField< uint16_t >( row, 8 );
+}
+
+Core::Data::GoldSaucerArcadeMachine::GoldSaucerArcadeMachine( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GoldSaucerArcadeMachineDat.get_row( row_id );
+   failImage = exdData->getField< uint32_t >( row, 6 );
+   poor = exdData->getField< uint32_t >( row, 35 );
+   good = exdData->getField< uint32_t >( row, 36 );
+   great = exdData->getField< uint32_t >( row, 37 );
+   excellent = exdData->getField< uint32_t >( row, 38 );
 }
 
 Core::Data::GoldSaucerTextData::GoldSaucerTextData( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2202,8 +2660,22 @@ Core::Data::GuardianDeity::GuardianDeity( uint32_t row_id, Core::Data::ExdDataGe
 Core::Data::GuildleveAssignment::GuildleveAssignment( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_GuildleveAssignmentDat.get_row( row_id );
+   assignmentTalk = exdData->getField< uint32_t >( row, 1 );
    quest.push_back( exdData->getField< uint32_t >( row, 2 ) );
    quest.push_back( exdData->getField< uint32_t >( row, 3 ) );
+}
+
+Core::Data::GuildleveAssignmentCategory::GuildleveAssignmentCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_GuildleveAssignmentCategoryDat.get_row( row_id );
+   category.push_back( exdData->getField< int32_t >( row, 0 ) );
+   category.push_back( exdData->getField< int32_t >( row, 1 ) );
+   category.push_back( exdData->getField< int32_t >( row, 2 ) );
+   category.push_back( exdData->getField< int32_t >( row, 3 ) );
+   category.push_back( exdData->getField< int32_t >( row, 4 ) );
+   category.push_back( exdData->getField< int32_t >( row, 5 ) );
+   category.push_back( exdData->getField< int32_t >( row, 6 ) );
+   category.push_back( exdData->getField< int32_t >( row, 7 ) );
 }
 
 Core::Data::GuildOrderGuide::GuildOrderGuide( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2216,10 +2688,41 @@ Core::Data::GuildOrderOfficer::GuildOrderOfficer( uint32_t row_id, Core::Data::E
    auto row = exdData->m_GuildOrderOfficerDat.get_row( row_id );
 }
 
+Core::Data::HairMakeType::HairMakeType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HairMakeTypeDat.get_row( row_id );
+   race = exdData->getField< int32_t >( row, 0 );
+   tribe = exdData->getField< int32_t >( row, 1 );
+   gender = exdData->getField< int8_t >( row, 2 );
+}
+
 Core::Data::HouseRetainerPose::HouseRetainerPose( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_HouseRetainerPoseDat.get_row( row_id );
    actionTimeline = exdData->getField< uint16_t >( row, 0 );
+}
+
+Core::Data::HousingAethernet::HousingAethernet( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HousingAethernetDat.get_row( row_id );
+   level = exdData->getField< uint32_t >( row, 0 );
+   territoryType = exdData->getField< uint16_t >( row, 1 );
+   placeName = exdData->getField< uint16_t >( row, 2 );
+   order = exdData->getField< uint8_t >( row, 3 );
+}
+
+Core::Data::HousingEmploymentNpcList::HousingEmploymentNpcList( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HousingEmploymentNpcListDat.get_row( row_id );
+   race = exdData->getField< uint8_t >( row, 0 );
+   eNpcBase.push_back( exdData->getField< uint32_t >( row, 1 ) );
+   eNpcBase.push_back( exdData->getField< uint32_t >( row, 2 ) );
+}
+
+Core::Data::HousingEmploymentNpcRace::HousingEmploymentNpcRace( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HousingEmploymentNpcRaceDat.get_row( row_id );
+   race = exdData->getField< std::string >( row, 0 );
 }
 
 Core::Data::HousingFurniture::HousingFurniture( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2230,9 +2733,38 @@ Core::Data::HousingFurniture::HousingFurniture( uint32_t row_id, Core::Data::Exd
    usageType = exdData->getField< uint8_t >( row, 2 );
    usageParameter = exdData->getField< uint32_t >( row, 3 );
    housingLayoutLimit = exdData->getField< uint8_t >( row, 4 );
+   customTalk = exdData->getField< uint8_t >( row, 5 );
    event = exdData->getField< uint32_t >( row, 6 );
    item = exdData->getField< uint32_t >( row, 7 );
    destroyOnRemoval = exdData->getField< bool >( row, 8 );
+   tooltip = exdData->getField< bool >( row, 9 );
+}
+
+Core::Data::HousingPlacement::HousingPlacement( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HousingPlacementDat.get_row( row_id );
+   text = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::HousingPreset::HousingPreset( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HousingPresetDat.get_row( row_id );
+   singular = exdData->getField< std::string >( row, 0 );
+   plural = exdData->getField< std::string >( row, 2 );
+   exteriorRoof = exdData->getField< int32_t >( row, 10 );
+   exteriorWall = exdData->getField< int32_t >( row, 11 );
+   exteriorWindow = exdData->getField< int32_t >( row, 12 );
+   exteriorDoor = exdData->getField< int32_t >( row, 13 );
+   interiorWall = exdData->getField< int32_t >( row, 14 );
+   interiorFlooring = exdData->getField< int32_t >( row, 15 );
+   interiorLighting = exdData->getField< int32_t >( row, 16 );
+   otherFloorWall = exdData->getField< int32_t >( row, 17 );
+   otherFloorFlooring = exdData->getField< int32_t >( row, 18 );
+   otherFloorLighting = exdData->getField< int32_t >( row, 19 );
+   basementWall = exdData->getField< int32_t >( row, 20 );
+   basementFlooring = exdData->getField< int32_t >( row, 21 );
+   basementLighting = exdData->getField< int32_t >( row, 22 );
+   mansionLighting = exdData->getField< int32_t >( row, 23 );
 }
 
 Core::Data::HousingYardObject::HousingYardObject( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2243,9 +2775,37 @@ Core::Data::HousingYardObject::HousingYardObject( uint32_t row_id, Core::Data::E
    usageType = exdData->getField< uint8_t >( row, 2 );
    usageParameter = exdData->getField< uint32_t >( row, 3 );
    housingLayoutLimit = exdData->getField< uint8_t >( row, 4 );
-   event = exdData->getField< uint32_t >( row, 5 );
+   customTalk = exdData->getField< uint32_t >( row, 5 );
    item = exdData->getField< uint32_t >( row, 6 );
    destroyOnRemoval = exdData->getField< bool >( row, 7 );
+}
+
+Core::Data::HowTo::HowTo( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HowToDat.get_row( row_id );
+   images.push_back( exdData->getField< int16_t >( row, 2 ) );
+   images.push_back( exdData->getField< int16_t >( row, 3 ) );
+   images.push_back( exdData->getField< int16_t >( row, 4 ) );
+   images.push_back( exdData->getField< int16_t >( row, 5 ) );
+   images.push_back( exdData->getField< int16_t >( row, 6 ) );
+   images.push_back( exdData->getField< int16_t >( row, 7 ) );
+   images.push_back( exdData->getField< int16_t >( row, 8 ) );
+   images.push_back( exdData->getField< int16_t >( row, 9 ) );
+   images.push_back( exdData->getField< int16_t >( row, 10 ) );
+   images.push_back( exdData->getField< int16_t >( row, 11 ) );
+   category = exdData->getField< int8_t >( row, 12 );
+}
+
+Core::Data::HowToCategory::HowToCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HowToCategoryDat.get_row( row_id );
+   category = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::HowToPage::HowToPage( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_HowToPageDat.get_row( row_id );
+   image = exdData->getField< int32_t >( row, 2 );
 }
 
 Core::Data::InstanceContent::InstanceContent( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2256,20 +2816,25 @@ Core::Data::InstanceContent::InstanceContent( uint32_t row_id, Core::Data::ExdDa
    timeLimitmin = exdData->getField< uint16_t >( row, 2 );
    name = exdData->getField< std::string >( row, 3 );
    bGM = exdData->getField< uint16_t >( row, 5 );
-   territoryType = exdData->getField< uint32_t >( row, 9 );
-   instanceContentTextDataBossStart = exdData->getField< uint32_t >( row, 13 );
-   instanceContentTextDataBossEnd = exdData->getField< uint32_t >( row, 14 );
-   bNpcBaseBoss = exdData->getField< uint32_t >( row, 15 );
-   instanceContentTextDataObjectiveStart = exdData->getField< uint32_t >( row, 16 );
-   instanceContentTextDataObjectiveEnd = exdData->getField< uint32_t >( row, 17 );
-   sortKey = exdData->getField< uint16_t >( row, 18 );
-   newPlayerBonusA = exdData->getField< uint16_t >( row, 21 );
-   newPlayerBonusB = exdData->getField< uint16_t >( row, 22 );
-   finalBossCurrencyA = exdData->getField< uint16_t >( row, 24 );
-   finalBossCurrencyB = exdData->getField< uint16_t >( row, 25 );
-   finalBossCurrencyC = exdData->getField< uint16_t >( row, 26 );
-   instanceContentBuff = exdData->getField< int32_t >( row, 52 );
-   partyCondition = exdData->getField< uint8_t >( row, 56 );
+   winBGM = exdData->getField< uint16_t >( row, 6 );
+   cutscene = exdData->getField< uint32_t >( row, 7 );
+   order = exdData->getField< uint16_t >( row, 9 );
+   instanceContentTextDataBossStart = exdData->getField< uint32_t >( row, 12 );
+   instanceContentTextDataBossEnd = exdData->getField< uint32_t >( row, 13 );
+   bNpcBaseBoss = exdData->getField< uint32_t >( row, 14 );
+   instanceContentTextDataObjectiveStart = exdData->getField< uint32_t >( row, 15 );
+   instanceContentTextDataObjectiveEnd = exdData->getField< uint32_t >( row, 16 );
+   sortKey = exdData->getField< uint16_t >( row, 17 );
+   newPlayerBonusA = exdData->getField< uint16_t >( row, 20 );
+   newPlayerBonusB = exdData->getField< uint16_t >( row, 21 );
+   finalBossExp = exdData->getField< uint32_t >( row, 22 );
+   finalBossCurrencyA = exdData->getField< uint16_t >( row, 23 );
+   finalBossCurrencyB = exdData->getField< uint16_t >( row, 24 );
+   finalBossCurrencyC = exdData->getField< uint16_t >( row, 25 );
+   instanceClearExp = exdData->getField< uint32_t >( row, 46 );
+   instanceContentBuff = exdData->getField< int32_t >( row, 51 );
+   territoryType = exdData->getField< uint32_t >( row, 52 );
+   partyCondition = exdData->getField< uint8_t >( row, 55 );
 }
 
 Core::Data::InstanceContentBuff::InstanceContentBuff( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2297,7 +2862,7 @@ Core::Data::Item::Item( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
    levelItem = exdData->getField< uint16_t >( row, 11 );
    rarity = exdData->getField< uint8_t >( row, 12 );
    filterGroup = exdData->getField< uint8_t >( row, 13 );
-   stain = exdData->getField< uint32_t >( row, 14 );
+   additionalData = exdData->getField< uint32_t >( row, 14 );
    itemUICategory = exdData->getField< uint8_t >( row, 15 );
    itemSearchCategory = exdData->getField< uint8_t >( row, 16 );
    equipSlotCategory = exdData->getField< uint8_t >( row, 17 );
@@ -2305,6 +2870,7 @@ Core::Data::Item::Item( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
    isUnique = exdData->getField< bool >( row, 20 );
    isUntradable = exdData->getField< bool >( row, 21 );
    isIndisposable = exdData->getField< bool >( row, 22 );
+   isEquippable = exdData->getField< bool >( row, 23 );
    priceMid = exdData->getField< uint32_t >( row, 24 );
    priceLow = exdData->getField< uint32_t >( row, 25 );
    canBeHq = exdData->getField< bool >( row, 26 );
@@ -2340,6 +2906,7 @@ Core::Data::Item::Item( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
    materiaSlotCount = exdData->getField< uint8_t >( row, 84 );
    isAdvancedMeldingPermitted = exdData->getField< bool >( row, 85 );
    isPvP = exdData->getField< bool >( row, 86 );
+   isGlamourous = exdData->getField< bool >( row, 87 );
 }
 
 Core::Data::ItemAction::ItemAction( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2473,7 +3040,7 @@ Core::Data::Level::Level( uint32_t row_id, Core::Data::ExdDataGenerated* exdData
    yaw = exdData->getField< float >( row, 3 );
    radius = exdData->getField< float >( row, 4 );
    type = exdData->getField< uint8_t >( row, 5 );
-   objectKey = exdData->getField< uint32_t >( row, 6 );
+   object = exdData->getField< uint32_t >( row, 6 );
    map = exdData->getField< uint16_t >( row, 7 );
    eventId = exdData->getField< uint32_t >( row, 8 );
    territory = exdData->getField< uint16_t >( row, 9 );
@@ -2499,7 +3066,7 @@ Core::Data::LeveVfx::LeveVfx( uint32_t row_id, Core::Data::ExdDataGenerated* exd
 Core::Data::LogFilter::LogFilter( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_LogFilterDat.get_row( row_id );
-   logKind = exdData->getField< uint16_t >( row, 1 );
+   logKind = exdData->getField< uint8_t >( row, 0 );
    name = exdData->getField< std::string >( row, 6 );
    example = exdData->getField< std::string >( row, 7 );
 }
@@ -2524,6 +3091,43 @@ Core::Data::LogMessage::LogMessage( uint32_t row_id, Core::Data::ExdDataGenerate
    auto row = exdData->m_LogMessageDat.get_row( row_id );
    logKind = exdData->getField< uint16_t >( row, 0 );
    text = exdData->getField< std::string >( row, 4 );
+}
+
+Core::Data::LotteryExchangeShop::LotteryExchangeShop( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_LotteryExchangeShopDat.get_row( row_id );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 1 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 2 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 3 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 4 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 5 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 6 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 7 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 8 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 9 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 10 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 11 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 12 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 13 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 14 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 15 ) );
+   itemAccepted.push_back( exdData->getField< int32_t >( row, 16 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 17 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 18 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 19 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 20 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 21 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 22 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 23 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 24 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 25 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 26 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 27 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 28 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 29 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 30 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 31 ) );
+   amountAccepted.push_back( exdData->getField< uint32_t >( row, 32 ) );
 }
 
 Core::Data::MacroIcon::MacroIcon( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2552,6 +3156,18 @@ Core::Data::MainCommandCategory::MainCommandCategory( uint32_t row_id, Core::Dat
 {
    auto row = exdData->m_MainCommandCategoryDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 1 );
+}
+
+Core::Data::ManeuversArmor::ManeuversArmor( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ManeuversArmorDat.get_row( row_id );
+   bNpcBase.push_back( exdData->getField< uint32_t >( row, 1 ) );
+   bNpcBase.push_back( exdData->getField< uint32_t >( row, 2 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 5 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 6 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 7 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 8 ) );
+   icon.push_back( exdData->getField< uint32_t >( row, 9 ) );
 }
 
 Core::Data::Map::Map( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2667,6 +3283,13 @@ Core::Data::MinionSkillType::MinionSkillType( uint32_t row_id, Core::Data::ExdDa
    name = exdData->getField< std::string >( row, 0 );
 }
 
+Core::Data::MobHuntOrderType::MobHuntOrderType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_MobHuntOrderTypeDat.get_row( row_id );
+   quest = exdData->getField< uint32_t >( row, 1 );
+   eventItem = exdData->getField< uint32_t >( row, 2 );
+}
+
 Core::Data::MobHuntTarget::MobHuntTarget( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_MobHuntTargetDat.get_row( row_id );
@@ -2684,6 +3307,13 @@ Core::Data::ModelChara::ModelChara( uint32_t row_id, Core::Data::ExdDataGenerate
    model = exdData->getField< uint16_t >( row, 1 );
    base = exdData->getField< uint8_t >( row, 2 );
    variant = exdData->getField< uint8_t >( row, 3 );
+}
+
+Core::Data::ModelState::ModelState( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ModelStateDat.get_row( row_id );
+   start = exdData->getField< uint16_t >( row, 0 );
+   end = exdData->getField< uint16_t >( row, 1 );
 }
 
 Core::Data::MonsterNote::MonsterNote( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2713,11 +3343,16 @@ Core::Data::Mount::Mount( uint32_t row_id, Core::Data::ExdDataGenerated* exdData
    auto row = exdData->m_MountDat.get_row( row_id );
    singular = exdData->getField< std::string >( row, 0 );
    plural = exdData->getField< std::string >( row, 2 );
+   startsWithVowel = exdData->getField< int8_t >( row, 4 );
+   modelChara = exdData->getField< int32_t >( row, 8 );
    flyingCondition = exdData->getField< uint8_t >( row, 10 );
    isFlying = exdData->getField< uint8_t >( row, 14 );
+   mountCustomize = exdData->getField< uint8_t >( row, 16 );
    rideBGM = exdData->getField< uint16_t >( row, 17 );
    order = exdData->getField< int16_t >( row, 29 );
    icon = exdData->getField< uint16_t >( row, 30 );
+   mountAction = exdData->getField< uint16_t >( row, 37 );
+   isAirborne = exdData->getField< bool >( row, 38 );
 }
 
 Core::Data::MountAction::MountAction( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2729,6 +3364,43 @@ Core::Data::MountAction::MountAction( uint32_t row_id, Core::Data::ExdDataGenera
    action.push_back( exdData->getField< uint16_t >( row, 3 ) );
    action.push_back( exdData->getField< uint16_t >( row, 4 ) );
    action.push_back( exdData->getField< uint16_t >( row, 5 ) );
+}
+
+Core::Data::MountCustomize::MountCustomize( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_MountCustomizeDat.get_row( row_id );
+   hyurMaleScale = exdData->getField< float >( row, 1 );
+   hyurFemaleScale = exdData->getField< float >( row, 2 );
+   elezenMaleScale = exdData->getField< float >( row, 3 );
+   elezenFemaleScale = exdData->getField< float >( row, 4 );
+   lalaMaleScale = exdData->getField< float >( row, 5 );
+   lalaFemaleScale = exdData->getField< float >( row, 6 );
+   miqoMaleScale = exdData->getField< float >( row, 7 );
+   miqoFemaleScale = exdData->getField< float >( row, 8 );
+   roeMaleScale = exdData->getField< float >( row, 9 );
+   roeFemaleScale = exdData->getField< float >( row, 10 );
+   auRaMaleScale = exdData->getField< float >( row, 11 );
+   auRaFemaleScale = exdData->getField< float >( row, 12 );
+}
+
+Core::Data::MountFlyingCondition::MountFlyingCondition( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_MountFlyingConditionDat.get_row( row_id );
+   quest = exdData->getField< uint32_t >( row, 0 );
+}
+
+Core::Data::MountSpeed::MountSpeed( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_MountSpeedDat.get_row( row_id );
+   quest = exdData->getField< uint32_t >( row, 0 );
+}
+
+Core::Data::MountTransient::MountTransient( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_MountTransientDat.get_row( row_id );
+   description = exdData->getField< std::string >( row, 0 );
+   descriptionEnhanced = exdData->getField< std::string >( row, 1 );
+   tooltip = exdData->getField< std::string >( row, 2 );
 }
 
 Core::Data::MoveTimeline::MoveTimeline( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2749,8 +3421,8 @@ Core::Data::MoveTimeline::MoveTimeline( uint32_t row_id, Core::Data::ExdDataGene
 Core::Data::MoveVfx::MoveVfx( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_MoveVfxDat.get_row( row_id );
-   zero = exdData->getField< uint16_t >( row, 0 );
-   one = exdData->getField< uint16_t >( row, 1 );
+   vFXNormal = exdData->getField< uint16_t >( row, 0 );
+   vFXWalking = exdData->getField< uint16_t >( row, 1 );
 }
 
 Core::Data::NpcEquip::NpcEquip( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2783,6 +3455,12 @@ Core::Data::NpcEquip::NpcEquip( uint32_t row_id, Core::Data::ExdDataGenerated* e
    dyeRightRing = exdData->getField< uint8_t >( row, 24 );
 }
 
+Core::Data::NpcYell::NpcYell( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_NpcYellDat.get_row( row_id );
+   text = exdData->getField< std::string >( row, 9 );
+}
+
 Core::Data::Omen::Omen( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_OmenDat.get_row( row_id );
@@ -2801,6 +3479,7 @@ Core::Data::Opening::Opening( uint32_t row_id, Core::Data::ExdDataGenerated* exd
 {
    auto row = exdData->m_OpeningDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
+   quest = exdData->getField< uint32_t >( row, 1 );
 }
 
 Core::Data::Orchestrion::Orchestrion( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2842,6 +3521,12 @@ Core::Data::ParamGrow::ParamGrow( uint32_t row_id, Core::Data::ExdDataGenerated*
    huntingLogExpReward = exdData->getField< int32_t >( row, 9 );
 }
 
+Core::Data::PartyContentCutscene::PartyContentCutscene( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PartyContentCutsceneDat.get_row( row_id );
+   cutscene = exdData->getField< uint32_t >( row, 0 );
+}
+
 Core::Data::Perform::Perform( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_PerformDat.get_row( row_id );
@@ -2874,6 +3559,7 @@ Core::Data::PetAction::PetAction( uint32_t row_id, Core::Data::ExdDataGenerated*
    auto row = exdData->m_PetActionDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
    description = exdData->getField< std::string >( row, 1 );
+   icon = exdData->getField< int32_t >( row, 2 );
    action = exdData->getField< uint16_t >( row, 3 );
    pet = exdData->getField< uint8_t >( row, 4 );
 }
@@ -2893,13 +3579,56 @@ Core::Data::PlaceName::PlaceName( uint32_t row_id, Core::Data::ExdDataGenerated*
    nameNoArticle = exdData->getField< std::string >( row, 2 );
 }
 
+Core::Data::PlantPotFlowerSeed::PlantPotFlowerSeed( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PlantPotFlowerSeedDat.get_row( row_id );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 0 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 1 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 2 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 3 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 4 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 5 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 6 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 7 ) );
+   seedIcon.push_back( exdData->getField< uint32_t >( row, 8 ) );
+}
+
+Core::Data::PreHandler::PreHandler( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PreHandlerDat.get_row( row_id );
+   gilShop = exdData->getField< uint32_t >( row, 0 );
+   actionTimeline = exdData->getField< uint16_t >( row, 2 );
+}
+
 Core::Data::PublicContent::PublicContent( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_PublicContentDat.get_row( row_id );
    timeLimit = exdData->getField< uint16_t >( row, 1 );
    mapIcon = exdData->getField< uint32_t >( row, 2 );
    name = exdData->getField< std::string >( row, 3 );
-   territoryType = exdData->getField< uint16_t >( row, 7 );
+   textDataStart = exdData->getField< uint32_t >( row, 4 );
+   textDataEnd = exdData->getField< uint32_t >( row, 5 );
+   contentFinderCondition = exdData->getField< uint16_t >( row, 7 );
+   eureka = exdData->getField< uint16_t >( row, 8 );
+}
+
+Core::Data::PublicContentCutscene::PublicContentCutscene( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PublicContentCutsceneDat.get_row( row_id );
+   cutscene = exdData->getField< uint32_t >( row, 0 );
+   cutscene2 = exdData->getField< uint32_t >( row, 1 );
+}
+
+Core::Data::PublicContentTextData::PublicContentTextData( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PublicContentTextDataDat.get_row( row_id );
+   textData = exdData->getField< std::string >( row, 0 );
+}
+
+Core::Data::PvPAction::PvPAction( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PvPActionDat.get_row( row_id );
+   action = exdData->getField< uint16_t >( row, 0 );
 }
 
 Core::Data::PvPActionSort::PvPActionSort( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -2907,6 +3636,28 @@ Core::Data::PvPActionSort::PvPActionSort( uint32_t row_id, Core::Data::ExdDataGe
    auto row = exdData->m_PvPActionSortDat.get_row( row_id );
    name = exdData->getField< uint8_t >( row, 0 );
    action = exdData->getField< uint16_t >( row, 1 );
+}
+
+Core::Data::PvPRank::PvPRank( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PvPRankDat.get_row( row_id );
+   expRequired = exdData->getField< uint32_t >( row, 0 );
+}
+
+Core::Data::PvPSelectTrait::PvPSelectTrait( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PvPSelectTraitDat.get_row( row_id );
+   effect = exdData->getField< std::string >( row, 0 );
+   icon = exdData->getField< uint32_t >( row, 1 );
+   value = exdData->getField< int16_t >( row, 2 );
+}
+
+Core::Data::PvPTrait::PvPTrait( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_PvPTraitDat.get_row( row_id );
+   trait1 = exdData->getField< uint16_t >( row, 0 );
+   trait2 = exdData->getField< uint16_t >( row, 1 );
+   trait3 = exdData->getField< uint16_t >( row, 2 );
 }
 
 Core::Data::Quest::Quest( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -3303,6 +4054,14 @@ Core::Data::QuestClassJobReward::QuestClassJobReward( uint32_t row_id, Core::Dat
    requiredAmount.push_back( exdData->getField< uint8_t >( row, 16 ) );
 }
 
+Core::Data::QuestClassJobSupply::QuestClassJobSupply( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_QuestClassJobSupplyDat.get_row( row_id );
+   classJobCategory = exdData->getField< uint8_t >( row, 0 );
+   eNpcResident = exdData->getField< uint32_t >( row, 2 );
+   item = exdData->getField< uint32_t >( row, 3 );
+}
+
 Core::Data::QuestRepeatFlag::QuestRepeatFlag( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_QuestRepeatFlagDat.get_row( row_id );
@@ -3312,6 +4071,7 @@ Core::Data::QuestRepeatFlag::QuestRepeatFlag( uint32_t row_id, Core::Data::ExdDa
 Core::Data::QuestRewardOther::QuestRewardOther( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_QuestRewardOtherDat.get_row( row_id );
+   icon = exdData->getField< uint32_t >( row, 0 );
    name = exdData->getField< std::string >( row, 1 );
 }
 
@@ -3402,6 +4162,7 @@ Core::Data::Recipe::Recipe( uint32_t row_id, Core::Data::ExdDataGenerated* exdDa
    statusRequired = exdData->getField< int32_t >( row, 40 );
    itemRequired = exdData->getField< int32_t >( row, 41 );
    isSpecializationRequired = exdData->getField< bool >( row, 42 );
+   patchNumber = exdData->getField< uint16_t >( row, 44 );
 }
 
 Core::Data::RecipeElement::RecipeElement( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -3415,6 +4176,7 @@ Core::Data::RecipeLevelTable::RecipeLevelTable( uint32_t row_id, Core::Data::Exd
    auto row = exdData->m_RecipeLevelTableDat.get_row( row_id );
    classJobLevel = exdData->getField< uint8_t >( row, 0 );
    stars = exdData->getField< uint8_t >( row, 1 );
+   suggestedCraftsmanship = exdData->getField< uint16_t >( row, 2 );
    difficulty = exdData->getField< uint16_t >( row, 3 );
    quality = exdData->getField< int16_t >( row, 4 );
    durability = exdData->getField< uint16_t >( row, 5 );
@@ -3643,6 +4405,14 @@ Core::Data::RelicNoteCategory::RelicNoteCategory( uint32_t row_id, Core::Data::E
    text = exdData->getField< std::string >( row, 1 );
 }
 
+Core::Data::Resident::Resident( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_ResidentDat.get_row( row_id );
+   model = exdData->getField< uint64_t >( row, 1 );
+   npcYell = exdData->getField< int32_t >( row, 2 );
+   residentMotionType = exdData->getField< uint8_t >( row, 3 );
+}
+
 Core::Data::RetainerTask::RetainerTask( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_RetainerTaskDat.get_row( row_id );
@@ -3692,6 +4462,13 @@ Core::Data::RetainerTaskRandom::RetainerTaskRandom( uint32_t row_id, Core::Data:
    auto row = exdData->m_RetainerTaskRandomDat.get_row( row_id );
    name = exdData->getField< std::string >( row, 0 );
    requirement = exdData->getField< int16_t >( row, 1 );
+}
+
+Core::Data::RPParameter::RPParameter( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_RPParameterDat.get_row( row_id );
+   bNpcName = exdData->getField< uint16_t >( row, 0 );
+   classJob = exdData->getField< uint8_t >( row, 1 );
 }
 
 Core::Data::Salvage::Salvage( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -3848,6 +4625,13 @@ Core::Data::SpearfishingNotebook::SpearfishingNotebook( uint32_t row_id, Core::D
    gatheringPointBase = exdData->getField< uint16_t >( row, 9 );
 }
 
+Core::Data::SpearfishingRecordPage::SpearfishingRecordPage( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_SpearfishingRecordPageDat.get_row( row_id );
+   placeName = exdData->getField< int32_t >( row, 3 );
+   image = exdData->getField< int32_t >( row, 4 );
+}
+
 Core::Data::SpecialShop::SpecialShop( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_SpecialShopDat.get_row( row_id );
@@ -3912,7 +4696,10 @@ Core::Data::SpecialShop::SpecialShop( uint32_t row_id, Core::Data::ExdDataGenera
    questItem.push_back( exdData->getField< int32_t >( row, 1258 ) );
    questItem.push_back( exdData->getField< int32_t >( row, 1259 ) );
    questItem.push_back( exdData->getField< int32_t >( row, 1260 ) );
+   questUnlock = exdData->getField< uint32_t >( row, 1862 );
    questShop = exdData->getField< int32_t >( row, 1863 );
+   notCompleteText = exdData->getField< int32_t >( row, 1864 );
+   completeText = exdData->getField< int32_t >( row, 1865 );
 }
 
 Core::Data::SpecialShopItemCategory::SpecialShopItemCategory( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -3966,7 +4753,9 @@ Core::Data::StatusHitEffect::StatusHitEffect( uint32_t row_id, Core::Data::ExdDa
 Core::Data::StatusLoopVFX::StatusLoopVFX( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_StatusLoopVFXDat.get_row( row_id );
-   location = exdData->getField< uint16_t >( row, 0 );
+   vFX = exdData->getField< uint16_t >( row, 0 );
+   vFX2 = exdData->getField< uint16_t >( row, 2 );
+   vFX3 = exdData->getField< uint16_t >( row, 4 );
 }
 
 Core::Data::Story::Story( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -4109,6 +4898,7 @@ Core::Data::Trait::Trait( uint32_t row_id, Core::Data::ExdDataGenerated* exdData
    icon = exdData->getField< int32_t >( row, 1 );
    classJob = exdData->getField< uint8_t >( row, 2 );
    level = exdData->getField< uint8_t >( row, 3 );
+   quest = exdData->getField< uint32_t >( row, 4 );
    value = exdData->getField< int16_t >( row, 5 );
    classJobCategory = exdData->getField< uint8_t >( row, 6 );
 }
@@ -4131,19 +4921,18 @@ Core::Data::Transformation::Transformation( uint32_t row_id, Core::Data::ExdData
 {
    auto row = exdData->m_TransformationDat.get_row( row_id );
    model = exdData->getField< int16_t >( row, 1 );
-   bNpcCustomize = exdData->getField< int32_t >( row, 2 );
-   bNpcEquip = exdData->getField< int32_t >( row, 3 );
-   action.push_back( exdData->getField< uint16_t >( row, 4 ) );
+   bNpcCustomize = exdData->getField< int32_t >( row, 4 );
    action.push_back( exdData->getField< uint16_t >( row, 5 ) );
    action.push_back( exdData->getField< uint16_t >( row, 6 ) );
    action.push_back( exdData->getField< uint16_t >( row, 7 ) );
    action.push_back( exdData->getField< uint16_t >( row, 8 ) );
    action.push_back( exdData->getField< uint16_t >( row, 9 ) );
-   speed = exdData->getField< float >( row, 12 );
-   scale = exdData->getField< float >( row, 13 );
-   isPvP = exdData->getField< bool >( row, 14 );
-   isEvent = exdData->getField< bool >( row, 15 );
-   playerCamera = exdData->getField< bool >( row, 16 );
+   action.push_back( exdData->getField< uint16_t >( row, 10 ) );
+   speed = exdData->getField< float >( row, 13 );
+   scale = exdData->getField< float >( row, 14 );
+   isPvP = exdData->getField< bool >( row, 15 );
+   isEvent = exdData->getField< bool >( row, 16 );
+   playerCamera = exdData->getField< bool >( row, 17 );
 }
 
 Core::Data::Treasure::Treasure( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -4317,6 +5106,35 @@ Core::Data::WarpCondition::WarpCondition( uint32_t row_id, Core::Data::ExdDataGe
    requiredQuest4 = exdData->getField< uint32_t >( row, 5 );
 }
 
+Core::Data::WarpLogic::WarpLogic( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_WarpLogicDat.get_row( row_id );
+   warpName = exdData->getField< bool >( row, 2 );
+   function.push_back( exdData->getField< std::string >( row, 3 ) );
+   function.push_back( exdData->getField< std::string >( row, 4 ) );
+   function.push_back( exdData->getField< std::string >( row, 5 ) );
+   function.push_back( exdData->getField< std::string >( row, 6 ) );
+   function.push_back( exdData->getField< std::string >( row, 7 ) );
+   function.push_back( exdData->getField< std::string >( row, 8 ) );
+   function.push_back( exdData->getField< std::string >( row, 9 ) );
+   function.push_back( exdData->getField< std::string >( row, 10 ) );
+   function.push_back( exdData->getField< std::string >( row, 11 ) );
+   function.push_back( exdData->getField< std::string >( row, 12 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 13 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 14 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 15 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 16 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 17 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 18 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 19 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 20 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 21 ) );
+   argument.push_back( exdData->getField< uint32_t >( row, 22 ) );
+   textString = exdData->getField< std::string >( row, 23 );
+   response1 = exdData->getField< std::string >( row, 24 );
+   response2 = exdData->getField< std::string >( row, 25 );
+}
+
 Core::Data::Weather::Weather( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_WeatherDat.get_row( row_id );
@@ -4346,6 +5164,7 @@ Core::Data::WeddingBGM::WeddingBGM( uint32_t row_id, Core::Data::ExdDataGenerate
 Core::Data::WeeklyBingoOrderData::WeeklyBingoOrderData( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_WeeklyBingoOrderDataDat.get_row( row_id );
+   type = exdData->getField< uint32_t >( row, 0 );
    data = exdData->getField< uint32_t >( row, 1 );
    text = exdData->getField< uint8_t >( row, 3 );
    icon = exdData->getField< uint32_t >( row, 4 );
@@ -4365,10 +5184,47 @@ Core::Data::WeeklyBingoText::WeeklyBingoText( uint32_t row_id, Core::Data::ExdDa
    description = exdData->getField< std::string >( row, 0 );
 }
 
+Core::Data::WeeklyLotBonus::WeeklyLotBonus( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
+{
+   auto row = exdData->m_WeeklyLotBonusDat.get_row( row_id );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 0 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 1 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 2 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 3 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 4 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 5 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 6 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 7 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 8 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 9 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 10 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 11 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 12 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 13 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 14 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 15 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 16 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 17 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 18 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 19 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 20 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 21 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 22 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 23 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 24 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 25 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 26 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 27 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 28 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 29 ) );
+   weeklyLotBonusThreshold.push_back( exdData->getField< uint8_t >( row, 30 ) );
+}
+
 Core::Data::World::World( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
 {
    auto row = exdData->m_WorldDat.get_row( row_id );
-   dataCenter = exdData->getField< uint8_t >( row, 1 );
+   name = exdData->getField< std::string >( row, 0 );
+   dataCenter = exdData->getField< uint8_t >( row, 2 );
 }
 
 Core::Data::WorldDCGroupType::WorldDCGroupType( uint32_t row_id, Core::Data::ExdDataGenerated* exdData )
@@ -4443,15 +5299,22 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_ActionParamDat = setupDatAccess( "ActionParam", xiv::exd::Language::none );
       m_ActionProcStatusDat = setupDatAccess( "ActionProcStatus", xiv::exd::Language::none );
       m_ActionTimelineDat = setupDatAccess( "ActionTimeline", xiv::exd::Language::none );
+      m_ActionTimelineMoveDat = setupDatAccess( "ActionTimelineMove", xiv::exd::Language::none );
       m_ActionTimelineReplaceDat = setupDatAccess( "ActionTimelineReplace", xiv::exd::Language::none );
       m_ActionTransientDat = setupDatAccess( "ActionTransient", xiv::exd::Language::en );
+      m_ActivityFeedButtonsDat = setupDatAccess( "ActivityFeedButtons", xiv::exd::Language::none );
+      m_ActivityFeedCaptionsDat = setupDatAccess( "ActivityFeedCaptions", xiv::exd::Language::none );
+      m_ActivityFeedGroupCaptionsDat = setupDatAccess( "ActivityFeedGroupCaptions", xiv::exd::Language::none );
+      m_ActivityFeedImagesDat = setupDatAccess( "ActivityFeedImages", xiv::exd::Language::none );
       m_AddonDat = setupDatAccess( "Addon", xiv::exd::Language::en );
+      m_AddonHudDat = setupDatAccess( "AddonHud", xiv::exd::Language::en );
       m_AdventureDat = setupDatAccess( "Adventure", xiv::exd::Language::en );
       m_AdventureExPhaseDat = setupDatAccess( "AdventureExPhase", xiv::exd::Language::none );
       m_AetherCurrentDat = setupDatAccess( "AetherCurrent", xiv::exd::Language::none );
       m_AetherCurrentCompFlgSetDat = setupDatAccess( "AetherCurrentCompFlgSet", xiv::exd::Language::none );
       m_AetherialWheelDat = setupDatAccess( "AetherialWheel", xiv::exd::Language::none );
       m_AetheryteDat = setupDatAccess( "Aetheryte", xiv::exd::Language::en );
+      m_AetheryteSystemDefineDat = setupDatAccess( "AetheryteSystemDefine", xiv::exd::Language::none );
       m_AirshipExplorationLevelDat = setupDatAccess( "AirshipExplorationLevel", xiv::exd::Language::none );
       m_AirshipExplorationLogDat = setupDatAccess( "AirshipExplorationLog", xiv::exd::Language::en );
       m_AirshipExplorationParamTypeDat = setupDatAccess( "AirshipExplorationParamType", xiv::exd::Language::en );
@@ -4469,7 +5332,9 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_AnimaWeaponItemDat = setupDatAccess( "AnimaWeaponItem", xiv::exd::Language::none );
       m_AquariumFishDat = setupDatAccess( "AquariumFish", xiv::exd::Language::none );
       m_AquariumWaterDat = setupDatAccess( "AquariumWater", xiv::exd::Language::en );
+      m_ArrayEventHandlerDat = setupDatAccess( "ArrayEventHandler", xiv::exd::Language::none );
       m_AttackTypeDat = setupDatAccess( "AttackType", xiv::exd::Language::en );
+      m_BacklightColorDat = setupDatAccess( "BacklightColor", xiv::exd::Language::none );
       m_BalloonDat = setupDatAccess( "Balloon", xiv::exd::Language::en );
       m_BaseParamDat = setupDatAccess( "BaseParam", xiv::exd::Language::en );
       m_BattleLeveDat = setupDatAccess( "BattleLeve", xiv::exd::Language::none );
@@ -4478,10 +5343,15 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_BeastTribeDat = setupDatAccess( "BeastTribe", xiv::exd::Language::en );
       m_BehaviorDat = setupDatAccess( "Behavior", xiv::exd::Language::none );
       m_BGMDat = setupDatAccess( "BGM", xiv::exd::Language::none );
+      m_BGMFadeDat = setupDatAccess( "BGMFade", xiv::exd::Language::none );
+      m_BGMSituationDat = setupDatAccess( "BGMSituation", xiv::exd::Language::none );
+      m_BGMSwitchDat = setupDatAccess( "BGMSwitch", xiv::exd::Language::none );
+      m_BGMSystemDefineDat = setupDatAccess( "BGMSystemDefine", xiv::exd::Language::none );
       m_BNpcAnnounceIconDat = setupDatAccess( "BNpcAnnounceIcon", xiv::exd::Language::none );
       m_BNpcBaseDat = setupDatAccess( "BNpcBase", xiv::exd::Language::none );
       m_BNpcCustomizeDat = setupDatAccess( "BNpcCustomize", xiv::exd::Language::none );
       m_BNpcNameDat = setupDatAccess( "BNpcName", xiv::exd::Language::en );
+      m_BNpcPartsDat = setupDatAccess( "BNpcParts", xiv::exd::Language::none );
       m_BuddyDat = setupDatAccess( "Buddy", xiv::exd::Language::none );
       m_BuddyActionDat = setupDatAccess( "BuddyAction", xiv::exd::Language::en );
       m_BuddyEquipDat = setupDatAccess( "BuddyEquip", xiv::exd::Language::en );
@@ -4500,6 +5370,8 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_ChocoboRaceRankDat = setupDatAccess( "ChocoboRaceRank", xiv::exd::Language::none );
       m_ChocoboRaceStatusDat = setupDatAccess( "ChocoboRaceStatus", xiv::exd::Language::none );
       m_ChocoboRaceTerritoryDat = setupDatAccess( "ChocoboRaceTerritory", xiv::exd::Language::none );
+      m_ChocoboRaceTutorialDat = setupDatAccess( "ChocoboRaceTutorial", xiv::exd::Language::none );
+      m_ChocoboRaceWeatherDat = setupDatAccess( "ChocoboRaceWeather", xiv::exd::Language::none );
       m_ChocoboTaxiDat = setupDatAccess( "ChocoboTaxi", xiv::exd::Language::none );
       m_ChocoboTaxiStandDat = setupDatAccess( "ChocoboTaxiStand", xiv::exd::Language::en );
       m_ClassJobDat = setupDatAccess( "ClassJob", xiv::exd::Language::en );
@@ -4518,32 +5390,44 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_CompanyCraftTypeDat = setupDatAccess( "CompanyCraftType", xiv::exd::Language::en );
       m_CompleteJournalDat = setupDatAccess( "CompleteJournal", xiv::exd::Language::en );
       m_CompleteJournalCategoryDat = setupDatAccess( "CompleteJournalCategory", xiv::exd::Language::none );
+      m_ContentCloseCycleDat = setupDatAccess( "ContentCloseCycle", xiv::exd::Language::none );
       m_ContentExActionDat = setupDatAccess( "ContentExAction", xiv::exd::Language::none );
       m_ContentFinderConditionDat = setupDatAccess( "ContentFinderCondition", xiv::exd::Language::en );
       m_ContentFinderConditionTransientDat = setupDatAccess( "ContentFinderConditionTransient", xiv::exd::Language::en );
+      m_ContentGaugeDat = setupDatAccess( "ContentGauge", xiv::exd::Language::en );
+      m_ContentGaugeColorDat = setupDatAccess( "ContentGaugeColor", xiv::exd::Language::none );
       m_ContentMemberTypeDat = setupDatAccess( "ContentMemberType", xiv::exd::Language::none );
       m_ContentNpcTalkDat = setupDatAccess( "ContentNpcTalk", xiv::exd::Language::none );
       m_ContentRouletteDat = setupDatAccess( "ContentRoulette", xiv::exd::Language::en );
+      m_ContentRouletteOpenRuleDat = setupDatAccess( "ContentRouletteOpenRule", xiv::exd::Language::none );
+      m_ContentRouletteRoleBonusDat = setupDatAccess( "ContentRouletteRoleBonus", xiv::exd::Language::none );
       m_ContentsNoteDat = setupDatAccess( "ContentsNote", xiv::exd::Language::en );
-      m_ContentsNoteCategoryDat = setupDatAccess( "ContentsNoteCategory", xiv::exd::Language::none );
       m_ContentTalkDat = setupDatAccess( "ContentTalk", xiv::exd::Language::en );
       m_ContentTalkParamDat = setupDatAccess( "ContentTalkParam", xiv::exd::Language::none );
       m_ContentTypeDat = setupDatAccess( "ContentType", xiv::exd::Language::en );
       m_CraftActionDat = setupDatAccess( "CraftAction", xiv::exd::Language::en );
       m_CraftLeveDat = setupDatAccess( "CraftLeve", xiv::exd::Language::none );
       m_CraftTypeDat = setupDatAccess( "CraftType", xiv::exd::Language::en );
+      m_CreditDat = setupDatAccess( "Credit", xiv::exd::Language::none );
+      m_CreditCastDat = setupDatAccess( "CreditCast", xiv::exd::Language::en );
       m_CurrencyDat = setupDatAccess( "Currency", xiv::exd::Language::none );
       m_CustomTalkDat = setupDatAccess( "CustomTalk", xiv::exd::Language::en );
       m_CutsceneDat = setupDatAccess( "Cutscene", xiv::exd::Language::none );
       m_CutScreenImageDat = setupDatAccess( "CutScreenImage", xiv::exd::Language::none );
       m_DailySupplyItemDat = setupDatAccess( "DailySupplyItem", xiv::exd::Language::none );
+      m_DeepDungeonDat = setupDatAccess( "DeepDungeon", xiv::exd::Language::en );
       m_DeepDungeonBanDat = setupDatAccess( "DeepDungeonBan", xiv::exd::Language::none );
       m_DeepDungeonDangerDat = setupDatAccess( "DeepDungeonDanger", xiv::exd::Language::none );
       m_DeepDungeonEquipmentDat = setupDatAccess( "DeepDungeonEquipment", xiv::exd::Language::en );
       m_DeepDungeonFloorEffectUIDat = setupDatAccess( "DeepDungeonFloorEffectUI", xiv::exd::Language::en );
       m_DeepDungeonItemDat = setupDatAccess( "DeepDungeonItem", xiv::exd::Language::en );
+      m_DeepDungeonLayerDat = setupDatAccess( "DeepDungeonLayer", xiv::exd::Language::none );
+      m_DeepDungeonMagicStoneDat = setupDatAccess( "DeepDungeonMagicStone", xiv::exd::Language::en );
+      m_DeepDungeonMap5XDat = setupDatAccess( "DeepDungeonMap5X", xiv::exd::Language::none );
+      m_DeepDungeonRoomDat = setupDatAccess( "DeepDungeonRoom", xiv::exd::Language::none );
       m_DeepDungeonStatusDat = setupDatAccess( "DeepDungeonStatus", xiv::exd::Language::none );
       m_DefaultTalkDat = setupDatAccess( "DefaultTalk", xiv::exd::Language::en );
+      m_DefaultTalkLipSyncTypeDat = setupDatAccess( "DefaultTalkLipSyncType", xiv::exd::Language::none );
       m_DeliveryQuestDat = setupDatAccess( "DeliveryQuest", xiv::exd::Language::none );
       m_DisposalShopDat = setupDatAccess( "DisposalShop", xiv::exd::Language::en );
       m_DisposalShopFilterTypeDat = setupDatAccess( "DisposalShopFilterType", xiv::exd::Language::en );
@@ -4566,7 +5450,10 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_EventIconPriorityDat = setupDatAccess( "EventIconPriority", xiv::exd::Language::none );
       m_EventIconTypeDat = setupDatAccess( "EventIconType", xiv::exd::Language::none );
       m_EventItemDat = setupDatAccess( "EventItem", xiv::exd::Language::en );
+      m_EventItemCastTimelineDat = setupDatAccess( "EventItemCastTimeline", xiv::exd::Language::none );
       m_EventItemHelpDat = setupDatAccess( "EventItemHelp", xiv::exd::Language::en );
+      m_EventItemTimelineDat = setupDatAccess( "EventItemTimeline", xiv::exd::Language::none );
+      m_ExportedSGDat = setupDatAccess( "ExportedSG", xiv::exd::Language::none );
       m_ExVersionDat = setupDatAccess( "ExVersion", xiv::exd::Language::en );
       m_FateDat = setupDatAccess( "Fate", xiv::exd::Language::en );
       m_FCActivityDat = setupDatAccess( "FCActivity", xiv::exd::Language::en );
@@ -4580,14 +5467,19 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_FCReputationDat = setupDatAccess( "FCReputation", xiv::exd::Language::en );
       m_FCRightsDat = setupDatAccess( "FCRights", xiv::exd::Language::en );
       m_FieldMarkerDat = setupDatAccess( "FieldMarker", xiv::exd::Language::en );
+      m_FishingRecordTypeTransientDat = setupDatAccess( "FishingRecordTypeTransient", xiv::exd::Language::none );
       m_FishingSpotDat = setupDatAccess( "FishingSpot", xiv::exd::Language::en );
       m_FishParameterDat = setupDatAccess( "FishParameter", xiv::exd::Language::en );
+      m_Frontline03Dat = setupDatAccess( "Frontline03", xiv::exd::Language::none );
+      m_Frontline04Dat = setupDatAccess( "Frontline04", xiv::exd::Language::none );
       m_GardeningSeedDat = setupDatAccess( "GardeningSeed", xiv::exd::Language::none );
       m_GatheringConditionDat = setupDatAccess( "GatheringCondition", xiv::exd::Language::en );
       m_GatheringExpDat = setupDatAccess( "GatheringExp", xiv::exd::Language::none );
       m_GatheringItemDat = setupDatAccess( "GatheringItem", xiv::exd::Language::none );
       m_GatheringItemLevelConvertTableDat = setupDatAccess( "GatheringItemLevelConvertTable", xiv::exd::Language::none );
       m_GatheringItemPointDat = setupDatAccess( "GatheringItemPoint", xiv::exd::Language::none );
+      m_GatheringLeveDat = setupDatAccess( "GatheringLeve", xiv::exd::Language::none );
+      m_GatheringLeveRouteDat = setupDatAccess( "GatheringLeveRoute", xiv::exd::Language::none );
       m_GatheringNotebookListDat = setupDatAccess( "GatheringNotebookList", xiv::exd::Language::none );
       m_GatheringPointDat = setupDatAccess( "GatheringPoint", xiv::exd::Language::none );
       m_GatheringPointBaseDat = setupDatAccess( "GatheringPointBase", xiv::exd::Language::none );
@@ -4596,6 +5488,7 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_GatheringPointNameDat = setupDatAccess( "GatheringPointName", xiv::exd::Language::en );
       m_GatheringSubCategoryDat = setupDatAccess( "GatheringSubCategory", xiv::exd::Language::en );
       m_GatheringTypeDat = setupDatAccess( "GatheringType", xiv::exd::Language::en );
+      m_GcArmyCaptureTacticsDat = setupDatAccess( "GcArmyCaptureTactics", xiv::exd::Language::none );
       m_GcArmyExpeditionDat = setupDatAccess( "GcArmyExpedition", xiv::exd::Language::en );
       m_GcArmyExpeditionMemberBonusDat = setupDatAccess( "GcArmyExpeditionMemberBonus", xiv::exd::Language::none );
       m_GcArmyExpeditionTypeDat = setupDatAccess( "GcArmyExpeditionType", xiv::exd::Language::en );
@@ -4614,18 +5507,30 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_GCSupplyDutyDat = setupDatAccess( "GCSupplyDuty", xiv::exd::Language::none );
       m_GCSupplyDutyRewardDat = setupDatAccess( "GCSupplyDutyReward", xiv::exd::Language::none );
       m_GeneralActionDat = setupDatAccess( "GeneralAction", xiv::exd::Language::en );
+      m_GFATEDat = setupDatAccess( "GFATE", xiv::exd::Language::none );
       m_GilShopDat = setupDatAccess( "GilShop", xiv::exd::Language::en );
       m_GilShopItemDat = setupDatAccess( "GilShopItem", xiv::exd::Language::none );
+      m_GoldSaucerArcadeMachineDat = setupDatAccess( "GoldSaucerArcadeMachine", xiv::exd::Language::en );
       m_GoldSaucerTextDataDat = setupDatAccess( "GoldSaucerTextData", xiv::exd::Language::en );
       m_GrandCompanyDat = setupDatAccess( "GrandCompany", xiv::exd::Language::en );
       m_GrandCompanyRankDat = setupDatAccess( "GrandCompanyRank", xiv::exd::Language::none );
       m_GuardianDeityDat = setupDatAccess( "GuardianDeity", xiv::exd::Language::en );
       m_GuildleveAssignmentDat = setupDatAccess( "GuildleveAssignment", xiv::exd::Language::none );
+      m_GuildleveAssignmentCategoryDat = setupDatAccess( "GuildleveAssignmentCategory", xiv::exd::Language::none );
       m_GuildOrderGuideDat = setupDatAccess( "GuildOrderGuide", xiv::exd::Language::none );
       m_GuildOrderOfficerDat = setupDatAccess( "GuildOrderOfficer", xiv::exd::Language::none );
+      m_HairMakeTypeDat = setupDatAccess( "HairMakeType", xiv::exd::Language::none );
       m_HouseRetainerPoseDat = setupDatAccess( "HouseRetainerPose", xiv::exd::Language::none );
+      m_HousingAethernetDat = setupDatAccess( "HousingAethernet", xiv::exd::Language::none );
+      m_HousingEmploymentNpcListDat = setupDatAccess( "HousingEmploymentNpcList", xiv::exd::Language::none );
+      m_HousingEmploymentNpcRaceDat = setupDatAccess( "HousingEmploymentNpcRace", xiv::exd::Language::en );
       m_HousingFurnitureDat = setupDatAccess( "HousingFurniture", xiv::exd::Language::none );
+      m_HousingPlacementDat = setupDatAccess( "HousingPlacement", xiv::exd::Language::en );
+      m_HousingPresetDat = setupDatAccess( "HousingPreset", xiv::exd::Language::en );
       m_HousingYardObjectDat = setupDatAccess( "HousingYardObject", xiv::exd::Language::none );
+      m_HowToDat = setupDatAccess( "HowTo", xiv::exd::Language::en );
+      m_HowToCategoryDat = setupDatAccess( "HowToCategory", xiv::exd::Language::en );
+      m_HowToPageDat = setupDatAccess( "HowToPage", xiv::exd::Language::en );
       m_InstanceContentDat = setupDatAccess( "InstanceContent", xiv::exd::Language::en );
       m_InstanceContentBuffDat = setupDatAccess( "InstanceContentBuff", xiv::exd::Language::none );
       m_InstanceContentTextDataDat = setupDatAccess( "InstanceContentTextData", xiv::exd::Language::en );
@@ -4650,10 +5555,12 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_LogKindDat = setupDatAccess( "LogKind", xiv::exd::Language::en );
       m_LogKindCategoryTextDat = setupDatAccess( "LogKindCategoryText", xiv::exd::Language::en );
       m_LogMessageDat = setupDatAccess( "LogMessage", xiv::exd::Language::en );
+      m_LotteryExchangeShopDat = setupDatAccess( "LotteryExchangeShop", xiv::exd::Language::en );
       m_MacroIconDat = setupDatAccess( "MacroIcon", xiv::exd::Language::none );
       m_MacroIconRedirectOldDat = setupDatAccess( "MacroIconRedirectOld", xiv::exd::Language::none );
       m_MainCommandDat = setupDatAccess( "MainCommand", xiv::exd::Language::en );
       m_MainCommandCategoryDat = setupDatAccess( "MainCommandCategory", xiv::exd::Language::en );
+      m_ManeuversArmorDat = setupDatAccess( "ManeuversArmor", xiv::exd::Language::en );
       m_MapDat = setupDatAccess( "Map", xiv::exd::Language::none );
       m_MapMarkerDat = setupDatAccess( "MapMarker", xiv::exd::Language::none );
       m_MapMarkerRegionDat = setupDatAccess( "MapMarkerRegion", xiv::exd::Language::none );
@@ -4665,15 +5572,22 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_MinionRaceDat = setupDatAccess( "MinionRace", xiv::exd::Language::en );
       m_MinionRulesDat = setupDatAccess( "MinionRules", xiv::exd::Language::en );
       m_MinionSkillTypeDat = setupDatAccess( "MinionSkillType", xiv::exd::Language::en );
+      m_MobHuntOrderTypeDat = setupDatAccess( "MobHuntOrderType", xiv::exd::Language::none );
       m_MobHuntTargetDat = setupDatAccess( "MobHuntTarget", xiv::exd::Language::none );
       m_ModelCharaDat = setupDatAccess( "ModelChara", xiv::exd::Language::none );
+      m_ModelStateDat = setupDatAccess( "ModelState", xiv::exd::Language::none );
       m_MonsterNoteDat = setupDatAccess( "MonsterNote", xiv::exd::Language::en );
       m_MonsterNoteTargetDat = setupDatAccess( "MonsterNoteTarget", xiv::exd::Language::none );
       m_MountDat = setupDatAccess( "Mount", xiv::exd::Language::en );
       m_MountActionDat = setupDatAccess( "MountAction", xiv::exd::Language::none );
+      m_MountCustomizeDat = setupDatAccess( "MountCustomize", xiv::exd::Language::none );
+      m_MountFlyingConditionDat = setupDatAccess( "MountFlyingCondition", xiv::exd::Language::none );
+      m_MountSpeedDat = setupDatAccess( "MountSpeed", xiv::exd::Language::none );
+      m_MountTransientDat = setupDatAccess( "MountTransient", xiv::exd::Language::en );
       m_MoveTimelineDat = setupDatAccess( "MoveTimeline", xiv::exd::Language::none );
       m_MoveVfxDat = setupDatAccess( "MoveVfx", xiv::exd::Language::none );
       m_NpcEquipDat = setupDatAccess( "NpcEquip", xiv::exd::Language::none );
+      m_NpcYellDat = setupDatAccess( "NpcYell", xiv::exd::Language::en );
       m_OmenDat = setupDatAccess( "Omen", xiv::exd::Language::none );
       m_OnlineStatusDat = setupDatAccess( "OnlineStatus", xiv::exd::Language::en );
       m_OpeningDat = setupDatAccess( "Opening", xiv::exd::Language::none );
@@ -4682,16 +5596,26 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_OrchestrionPathDat = setupDatAccess( "OrchestrionPath", xiv::exd::Language::none );
       m_OrchestrionUiparamDat = setupDatAccess( "OrchestrionUiparam", xiv::exd::Language::none );
       m_ParamGrowDat = setupDatAccess( "ParamGrow", xiv::exd::Language::none );
+      m_PartyContentCutsceneDat = setupDatAccess( "PartyContentCutscene", xiv::exd::Language::none );
       m_PerformDat = setupDatAccess( "Perform", xiv::exd::Language::en );
       m_PerformTransientDat = setupDatAccess( "PerformTransient", xiv::exd::Language::en );
       m_PetDat = setupDatAccess( "Pet", xiv::exd::Language::en );
       m_PetActionDat = setupDatAccess( "PetAction", xiv::exd::Language::en );
       m_PictureDat = setupDatAccess( "Picture", xiv::exd::Language::none );
       m_PlaceNameDat = setupDatAccess( "PlaceName", xiv::exd::Language::en );
+      m_PlantPotFlowerSeedDat = setupDatAccess( "PlantPotFlowerSeed", xiv::exd::Language::none );
+      m_PreHandlerDat = setupDatAccess( "PreHandler", xiv::exd::Language::none );
       m_PublicContentDat = setupDatAccess( "PublicContent", xiv::exd::Language::en );
+      m_PublicContentCutsceneDat = setupDatAccess( "PublicContentCutscene", xiv::exd::Language::none );
+      m_PublicContentTextDataDat = setupDatAccess( "PublicContentTextData", xiv::exd::Language::en );
+      m_PvPActionDat = setupDatAccess( "PvPAction", xiv::exd::Language::none );
       m_PvPActionSortDat = setupDatAccess( "PvPActionSort", xiv::exd::Language::none );
+      m_PvPRankDat = setupDatAccess( "PvPRank", xiv::exd::Language::none );
+      m_PvPSelectTraitDat = setupDatAccess( "PvPSelectTrait", xiv::exd::Language::en );
+      m_PvPTraitDat = setupDatAccess( "PvPTrait", xiv::exd::Language::none );
       m_QuestDat = setupDatAccess( "Quest", xiv::exd::Language::en );
       m_QuestClassJobRewardDat = setupDatAccess( "QuestClassJobReward", xiv::exd::Language::none );
+      m_QuestClassJobSupplyDat = setupDatAccess( "QuestClassJobSupply", xiv::exd::Language::none );
       m_QuestRepeatFlagDat = setupDatAccess( "QuestRepeatFlag", xiv::exd::Language::none );
       m_QuestRewardOtherDat = setupDatAccess( "QuestRewardOther", xiv::exd::Language::en );
       m_QuickChatDat = setupDatAccess( "QuickChat", xiv::exd::Language::en );
@@ -4712,11 +5636,13 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_RelicItemDat = setupDatAccess( "RelicItem", xiv::exd::Language::none );
       m_RelicNoteDat = setupDatAccess( "RelicNote", xiv::exd::Language::none );
       m_RelicNoteCategoryDat = setupDatAccess( "RelicNoteCategory", xiv::exd::Language::en );
+      m_ResidentDat = setupDatAccess( "Resident", xiv::exd::Language::none );
       m_RetainerTaskDat = setupDatAccess( "RetainerTask", xiv::exd::Language::none );
       m_RetainerTaskLvRangeDat = setupDatAccess( "RetainerTaskLvRange", xiv::exd::Language::none );
       m_RetainerTaskNormalDat = setupDatAccess( "RetainerTaskNormal", xiv::exd::Language::none );
       m_RetainerTaskParameterDat = setupDatAccess( "RetainerTaskParameter", xiv::exd::Language::none );
       m_RetainerTaskRandomDat = setupDatAccess( "RetainerTaskRandom", xiv::exd::Language::en );
+      m_RPParameterDat = setupDatAccess( "RPParameter", xiv::exd::Language::none );
       m_SalvageDat = setupDatAccess( "Salvage", xiv::exd::Language::none );
       m_SatisfactionNpcDat = setupDatAccess( "SatisfactionNpc", xiv::exd::Language::none );
       m_SatisfactionSupplyDat = setupDatAccess( "SatisfactionSupply", xiv::exd::Language::none );
@@ -4734,6 +5660,7 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_SkyIsland2RangeTypeDat = setupDatAccess( "SkyIsland2RangeType", xiv::exd::Language::none );
       m_SpearfishingItemDat = setupDatAccess( "SpearfishingItem", xiv::exd::Language::en );
       m_SpearfishingNotebookDat = setupDatAccess( "SpearfishingNotebook", xiv::exd::Language::none );
+      m_SpearfishingRecordPageDat = setupDatAccess( "SpearfishingRecordPage", xiv::exd::Language::none );
       m_SpecialShopDat = setupDatAccess( "SpecialShop", xiv::exd::Language::en );
       m_SpecialShopItemCategoryDat = setupDatAccess( "SpecialShopItemCategory", xiv::exd::Language::en );
       m_StainDat = setupDatAccess( "Stain", xiv::exd::Language::en );
@@ -4775,6 +5702,7 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_VFXDat = setupDatAccess( "VFX", xiv::exd::Language::none );
       m_WarpDat = setupDatAccess( "Warp", xiv::exd::Language::en );
       m_WarpConditionDat = setupDatAccess( "WarpCondition", xiv::exd::Language::none );
+      m_WarpLogicDat = setupDatAccess( "WarpLogic", xiv::exd::Language::en );
       m_WeatherDat = setupDatAccess( "Weather", xiv::exd::Language::en );
       m_WeatherGroupDat = setupDatAccess( "WeatherGroup", xiv::exd::Language::none );
       m_WeatherRateDat = setupDatAccess( "WeatherRate", xiv::exd::Language::none );
@@ -4782,6 +5710,7 @@ bool Core::Data::ExdDataGenerated::init( const std::string& path )
       m_WeeklyBingoOrderDataDat = setupDatAccess( "WeeklyBingoOrderData", xiv::exd::Language::none );
       m_WeeklyBingoRewardDataDat = setupDatAccess( "WeeklyBingoRewardData", xiv::exd::Language::none );
       m_WeeklyBingoTextDat = setupDatAccess( "WeeklyBingoText", xiv::exd::Language::en );
+      m_WeeklyLotBonusDat = setupDatAccess( "WeeklyLotBonus", xiv::exd::Language::none );
       m_WorldDat = setupDatAccess( "World", xiv::exd::Language::none );
       m_WorldDCGroupTypeDat = setupDatAccess( "WorldDCGroupType", xiv::exd::Language::none );
       m_YKWDat = setupDatAccess( "YKW", xiv::exd::Language::en );
